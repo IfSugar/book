@@ -1,0 +1,1825 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>/* Frame guard (against clickjacking): inside a frame the page runs only when every page around it is on
+   ifsugar.studio (the site itself or one of its subdomains). Anywhere else it tries to take the whole tab and, when it
+   may not, hides itself behind a link that opens it on its own. Never framed: nothing happens. */
+(function () {
+  if (window.top === window.self) return;
+  var ours = /^https:\/\/([a-z0-9-]+\.)*ifsugar\.studio$/;
+  var around = [];
+  try { var ao = window.location.ancestorOrigins; for (var i = 0; ao && i < ao.length; i++) around.push(ao[i]); } catch (e) {}
+  if (!around.length) { try { around.push(new URL(document.referrer).origin); } catch (e) { around.push(''); } } // Firefox: the page around it
+  for (var j = 0; j < around.length; j++) if (!ours.test(around[j])) return framedOut();
+  function framedOut() {
+    document.documentElement.className += ' framed-out';
+    try { window.top.location.replace(window.location.href); } catch (e) { /* browsers usually refuse: the link below */ }
+    document.addEventListener('DOMContentLoaded', function () {
+      var a = document.createElement('a');
+      a.href = window.location.href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'framed-out-link';
+      a.textContent = 'Отворете страницата за запазване на час';
+      document.body.appendChild(a);
+    });
+  }
+})();</script>
+<script>/* the announcement bar closed earlier in this visit: hidden before the first paint */try { if (sessionStorage.getItem('ifsugar-informer') === 'closed') document.documentElement.classList.add('informer-closed'); } catch (e) {}</script>
+<title>Запазете час · If Sugar Photography</title>
+<meta name="description" content="Запазете час за фотосесия в студиото на If Sugar Photography в Студентски град, София: изберете фотосесия, ден и час.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://book.ifsugar.studio/">
+<meta property="og:title" content="Запазете час · If Sugar Photography">
+<meta property="og:description" content="Изберете фотосесия, ден и час в студиото в Студентски град, София.">
+<meta property="og:image" content="https://book.ifsugar.studio/logo.png">
+<meta name="theme-color" content="#ffffff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto:wght@400;500;700&display=swap">
+<!-- built by book/build.py from book/src — edit the sources, not this file -->
+<style>
+/* If Sugar Photography design system: white ground, warm bands, ink text, one caramel accent, pill buttons.
+   The booking page's shared styles (book.css: the booking card). */
+:root {
+  --surface: #ffffff;
+  --surface-warm: #f3f2f0;
+  --ink: #1e1e1e;
+  --caramel: #aa8d74;
+  --caramel-ink: #7a5f48;   /* caramel darkened for small accent text: 5.9:1 on white, 5.3:1 on the warm band */
+  --on-caramel: #ffffff;
+  --stone: #a9a49e;
+  --hairline: #e2ded8;
+  --muted: #5f5a55;         /* secondary text: 6.8:1 on white */
+  --off: #9a948d;           /* days without free times (disabled controls) */
+  --error: #a33a3a;
+  --font-display: Forum, Georgia, serif;
+  --font-sans: Roboto, Helvetica, Arial, sans-serif;
+  --space-gutter: 25px;
+  --space-section: 50px;
+  --space-button-y: 18px;
+  --space-button-x: 34px;
+  --radius-pill: 100px;
+  --content-width: 768px;
+  --wide-width: 1140px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font: 400 14px/21px var(--font-sans);
+  overflow-wrap: break-word;
+}
+img { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.column { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--space-gutter); }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 40; background: var(--ink); color: #fff; padding: 10px 16px; text-decoration: none; }
+.skip:focus { top: 12px; }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; }
+h1 { font-size: 36px; line-height: 39.6px; letter-spacing: .72px; }
+h2 { font-size: 28px; line-height: 32px; letter-spacing: .56px; }
+h3 { font-size: 22px; line-height: 26px; letter-spacing: .44px; }
+[tabindex="-1"]:focus { outline: none; }
+
+/* ---- top band, header, nav (as on ifsugar.studio; on phones its phone theme: a fixed bar with a menu button) ---- */
+/* the announcement bar, as on ifsugar.studio: cream, bold brown 12px text, 44px tall */
+.topband { position: relative; overflow: hidden; background: #fefbf2; color: #68371b; font: 400 12px/16px var(--font-sans); }
+.topband a, .topband a:hover { color: inherit; text-decoration: none; }
+.topband b { font-weight: 700; }
+/* the text in one line; when it doesn't fit, it scrolls slowly to the left (copies follow it), as on ifsugar.studio */
+.topband-link { display: flex; flex-wrap: nowrap; justify-content: center; }
+.topband-item { flex-shrink: 0; padding: 14px 60px; text-align: center; white-space: nowrap; }
+.topband.is-animated .topband-link { justify-content: flex-start; }
+.topband.is-animated .topband-item { animation: topband-scroll var(--topband-dur, 14s) linear infinite; will-change: transform; }
+@keyframes topband-scroll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-100%, 0, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .topband.is-animated .topband-item { animation: none; }
+  .topband.is-animated .topband-item:first-child { box-sizing: border-box; max-width: calc(100% - 64px); padding-right: 0; overflow: hidden; text-overflow: ellipsis; }
+  .topband.is-animated .topband-copy { display: none; }
+}
+/* its close button, as on ifsugar.studio: a 64×44 area at the right end — a 24px fade into the bar colour, then a thin ×
+   at half strength (full on hover/focus); the text keeps clear of it on both sides */
+.topband-close { position: absolute; right: 0; top: 0; width: 64px; height: 100%; display: flex; align-items: center; justify-content: center; padding: 0 0 0 24px; border: 0; background: linear-gradient(90deg, rgba(254, 251, 242, 0) 0, #fefbf2 24px); color: inherit; cursor: pointer; }
+.topband-close svg { display: block; width: 20px; height: 20px; opacity: .5; transition: opacity .3s; }
+.topband-close:hover svg, .topband-close:focus-visible svg { opacity: 1; }
+.topband-close:focus-visible { outline: 2px solid var(--ink); outline-offset: -6px; }
+html.informer-closed .topband { display: none; }
+.burger { display: none; }
+.nav { list-style: none; margin: 0; padding: 0; }
+.nav a { text-decoration: none; }
+/* the desktop header, exactly as ifsugar.studio's (measured from its own styles): 50px above and below, the logo
+   127px wide centred, 40px gap, then the menu — 12px bold capitals, 40px apart with 5px dots, and an underline that
+   slides in under the link you point at; the whole header slides down and fades in as the page opens */
+@media (min-width: 861px) {
+  .site-header { padding: 50px var(--space-gutter); text-align: center; background: #fff; animation: header-in .75s both; }
+  .site-header .logo { display: block; width: max-content; margin: 0 auto 40px; line-height: 0; }
+  .site-header .logo img { display: block; width: auto; height: auto; max-width: 127px; max-height: 40px; }
+  .nav { display: flex; flex-wrap: wrap; justify-content: center; font-size: 12px; }
+  .nav li { position: relative; margin: 0 20px; padding: 8px 0; line-height: 1; text-align: center; }
+  .nav li::before { content: ""; position: absolute; right: -20px; top: 49%; width: 5px; height: 5px; margin-top: -2px; border-radius: 50%; background: rgba(30, 30, 30, .5); transform: translateX(50%); }
+  .nav li:last-child::before { content: none; }
+  .nav a { position: relative; display: inline; font: 700 12px/1 var(--font-sans); letter-spacing: normal; text-transform: uppercase; color: #1e1e1e; white-space: nowrap; }
+  .nav a::after { content: ""; display: block; visibility: hidden; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: #1e1e1e; transform: scaleX(0); transition: .6s cubic-bezier(.165, .84, .44, 1); }
+  .nav a:hover::after, .nav a:focus-visible::after { visibility: visible; transform: scaleX(1); }
+}
+@keyframes header-in { from { transform: translateY(-40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .site-header { animation: none; } .nav a::after { transition: none; } }
+
+/* ---- buttons ---- */
+.is-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 56px;
+  font: 400 12px/18px var(--font-sans); letter-spacing: 1.2px; text-transform: uppercase;
+  padding: var(--space-button-y) var(--space-button-x);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--caramel); background: var(--caramel); color: var(--on-caramel);
+  cursor: pointer; text-decoration: none; text-align: center;
+  transition: opacity .2s;
+}
+.is-button:hover { opacity: .85; }
+.is-button[disabled] { opacity: .6; cursor: default; }
+.is-button.is-outline { background: transparent; color: var(--ink); border-color: var(--ink); }
+.is-button.is-outline:hover { opacity: 1; background: var(--ink); color: #fff; }
+.text-button {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: none; border: 0; padding: 8px 0; margin: 0; cursor: pointer; color: var(--ink);
+  font: 400 12px/18px var(--font-sans); letter-spacing: 1.2px; text-transform: uppercase; text-decoration: none;
+}
+.text-button:hover { color: var(--caramel-ink); }
+.link { color: var(--caramel-ink); text-decoration: underline; text-underline-offset: 2px; }
+.link:hover { color: var(--ink); }
+
+/* ---- session type bits ---- */
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent, var(--stone)); flex: none; }
+.type-desc { color: var(--ink); }
+.type-desc p { margin: 0 0 10px; }
+.type-desc p:last-child { margin-bottom: 0; }
+.meta { color: var(--muted); font-size: 13px; line-height: 20px; }
+.meta-row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 4px 18px; color: var(--muted); font-size: 13px; line-height: 20px; }
+.meta-row > span { display: inline-flex; align-items: center; gap: 6px; }
+.meta-row > .meta-place { align-items: flex-start; }
+.meta-place svg { margin-top: 2px; }
+.meta-address { display: block; }
+.meta-row svg { width: 15px; height: 15px; flex: none; }
+
+/* ---- day and time ---- */
+.daytime { display: grid; grid-template-columns: minmax(0, 1fr) 232px; gap: 40px; align-items: start; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.cal-month { font: 400 22px/26px var(--font-display); letter-spacing: .44px; text-align: center; flex: 1; }
+.cal-nav { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--hairline); background: var(--surface); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+.cal-nav:hover:not([disabled]) { border-color: var(--ink); }
+.cal-nav[disabled] { color: var(--off); cursor: default; opacity: .5; }
+.cal-nav svg { width: 16px; height: 16px; }
+.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.cal-grid th { font: 500 11px/16px var(--font-sans); color: var(--muted); text-transform: lowercase; padding: 0 0 8px; text-align: center; }
+.cal-grid td { padding: 3px 0; text-align: center; }
+.day {
+  position: relative; width: 44px; height: 44px; max-width: 100%; border-radius: 50%;
+  border: 0; background: transparent; color: var(--off); font: 400 14px/1 var(--font-sans); padding: 0; cursor: default;
+}
+.day.is-free { background: var(--surface-warm); color: var(--ink); font-weight: 500; cursor: pointer; }
+.day.is-free:hover { background: #e7e3de; }
+.day.is-selected, .day.is-selected:hover { background: var(--ink); color: #fff; }
+.day.is-today::after { content: ""; position: absolute; left: 50%; bottom: 6px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--caramel); }
+.day.is-selected.is-today::after { background: #fff; }
+.cal-foot { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 14px; font-size: 12px; line-height: 18px; color: var(--muted); }
+.cal-foot .key { display: inline-flex; align-items: center; gap: 6px; }
+.cal-foot .dot-free { width: 14px; height: 14px; border-radius: 50%; background: var(--surface-warm); border: 1px solid var(--hairline); }
+.cal-foot .dot-today { width: 4px; height: 4px; border-radius: 50%; background: var(--caramel); margin: 0 5px; }
+.cal-status { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
+.cal-status .text-button { padding: 4px 0; }
+.cal.is-loading .cal-grid { opacity: .45; }
+.cal-status.is-error { color: var(--error); }
+
+.times-day { font: 400 22px/26px var(--font-display); letter-spacing: .44px; margin: 6px 0 16px; }
+.times-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.time {
+  width: 100%; min-height: 48px; border-radius: var(--radius-pill); border: 1px solid var(--stone); background: var(--surface);
+  color: var(--ink); cursor: pointer; font: 500 15px/20px var(--font-sans); padding: 8px 18px;
+  display: flex; align-items: center; justify-content: center;
+}
+.time:hover { border-color: var(--ink); }
+.time.is-selected { background: var(--ink); border-color: var(--ink); color: #fff; }
+.times-empty { color: var(--muted); margin: 6px 0 0; }
+
+/* ---- the form ---- */
+.bk-form { display: grid; gap: 26px; }
+.form-note { margin: 0; color: var(--muted); font-size: 13px; }
+.field { display: grid; gap: 8px; min-width: 0; border: 0; padding: 0; margin: 0; }
+.field > legend { padding: 0; margin-bottom: 8px; }
+.f-label { font-weight: 500; font-size: 14px; line-height: 21px; display: block; }
+.f-label .line { display: block; }
+.opt { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 6px; white-space: nowrap; }
+.f-hint { margin: -4px 0 0; color: var(--muted); font-size: 13px; line-height: 19px; }
+.input, .textarea {
+  width: 100%; min-width: 0; font: 400 15px/21px var(--font-sans); color: var(--ink);
+  background: var(--surface); border: 1px solid var(--stone);
+}
+.input { height: 52px; border-radius: var(--radius-pill); padding: 0 22px; }
+.textarea { border-radius: 22px; padding: 14px 20px; min-height: 96px; resize: vertical; }
+.input::placeholder, .textarea::placeholder { color: #8a847d; }
+.input:focus-visible, .textarea:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
+[aria-invalid="true"].input, [aria-invalid="true"].textarea { border-color: var(--error); }
+.choices { display: grid; gap: 4px; }
+.choice { display: flex; gap: 12px; align-items: flex-start; padding: 7px 0; cursor: pointer; font-size: 14px; line-height: 21px; }
+.choice input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--ink); flex: none; cursor: pointer; }
+.choices.is-inline { display: flex; flex-wrap: wrap; gap: 8px; }
+.choices.is-inline .choice { border: 1px solid var(--stone); border-radius: var(--radius-pill); padding: 11px 18px 11px 14px; align-items: center; }
+.choices.is-inline .choice input { margin: 0; }
+.choices.is-inline .choice:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.choices.is-inline .choice:has(input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 2px; }
+.choices.is-inline .choice:has(input:focus-visible) input { outline: none; }
+.other-text { margin: 4px 0 0 30px; width: calc(100% - 30px); }
+fieldset[aria-invalid="true"] .choice input { outline: 1px solid var(--error); outline-offset: 1px; }
+.field-error { margin: 0; color: var(--error); font-size: 13px; line-height: 19px; display: flex; gap: 6px; }
+.field-error::before { content: "!"; flex: none; width: 16px; height: 16px; margin-top: 1px; border-radius: 50%; background: var(--error); color: #fff; font: 700 11px/16px var(--font-sans); text-align: center; }
+.check-row { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 14px; line-height: 21px; }
+.check-row input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--ink); flex: none; cursor: pointer; }
+.check-row a { color: var(--caramel-ink); }
+.form-end { display: grid; gap: 14px; justify-items: start; padding-top: 6px; }
+.form-end .is-button { min-width: 240px; }
+.form-summary { margin: 0; color: var(--error); font-size: 13px; }
+.form-small { margin: 0; font-size: 12px; line-height: 18px; color: var(--muted); }
+.notice { margin: 0; padding: 12px 16px; background: var(--surface-warm); border-left: 3px solid var(--caramel); font-size: 13px; line-height: 20px; }
+.field-news { border-top: 1px solid var(--hairline); padding-top: 22px; }
+.hp { position: absolute !important; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.robot-check:empty { display: none; }
+.form-problem:empty { display: none; }
+.form-problem { width: 100%; }
+.form-error { margin: 0; padding: 12px 16px; border-left: 3px solid var(--error); background: #fbf3f3; color: var(--ink); font-size: 13px; line-height: 20px; }
+
+/* ---- when online booking can't work right now ---- */
+.down { padding: 6px 0; }
+.down-title { margin: 0 0 10px; }
+.down > p { margin: 0 0 18px; }
+.down-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.down .down-alt { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+.down.is-compact { padding: 16px 18px; background: var(--surface-warm); border-left: 3px solid var(--caramel); }
+.down.is-compact .down-title { font: 500 14px/21px var(--font-sans); letter-spacing: 0; margin-bottom: 4px; }
+.down.is-compact > p { margin-bottom: 12px; }
+.down.is-compact .is-button { min-height: 44px; padding: 12px 22px; }
+
+/* ---- confirmation ---- */
+.done { text-align: left; }
+.done-mark { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--caramel); color: var(--caramel-ink); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.done-mark svg { width: 24px; height: 24px; }
+.done h2 { font-size: 36px; line-height: 39.6px; letter-spacing: .72px; margin-bottom: 10px; }
+.done-lead { margin: 0 0 26px; font-size: 15px; line-height: 23px; }
+.done-list { margin: 0 0 26px; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--hairline); }
+.done-list > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--hairline); }
+.done-list dt { color: var(--muted); font-size: 13px; }
+.done-list dd { margin: 0; }
+.done-list dd b { font-weight: 500; }
+.done-steps { display: grid; gap: 14px; margin: 0 0 28px; }
+.done-step { padding: 16px 20px; background: var(--surface-warm); }
+.done-step h3 { font: 500 14px/21px var(--font-sans); margin: 0 0 4px; letter-spacing: 0; }
+.done-step p { margin: 0; }
+.done-step.is-important { border-left: 3px solid var(--caramel); }
+.done-type { display: inline-flex; align-items: center; gap: 12px; }
+.done-type .pic { width: 44px; height: 44px; border-radius: 8px; }
+.done-links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 8px !important; }
+.pay { display: grid; gap: 12px; margin-top: 12px; }
+.pay-way { padding: 12px 14px; background: var(--surface); }
+.pay-way p { margin: 0; }
+.pay-name { font-weight: 500; margin-bottom: 4px !important; }
+.pay-line { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 12px; padding: 8px 0; border-top: 1px solid var(--hairline); }
+.pay-line:last-child { padding-bottom: 0; }
+.pay-kv { margin: 0; display: grid; }
+.pay-k { color: var(--muted); font-size: 12px; line-height: 18px; }
+.iban { font-variant-numeric: tabular-nums; letter-spacing: .3px; text-wrap: balance; } /* wraps only between its groups of four, evenly */
+.copy { font: 400 11px/16px var(--font-sans); letter-spacing: 1px; text-transform: uppercase; color: var(--ink); background: var(--surface); border: 1px solid var(--stone); border-radius: var(--radius-pill); padding: 6px 14px; min-height: 32px; cursor: pointer; }
+.copy:hover { border-color: var(--ink); }
+.done-cal h3 { font: 500 14px/21px var(--font-sans); margin: 0 0 10px; letter-spacing: 0; }
+.done-cal .row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.done-cal .is-button { min-height: 48px; padding: 14px 24px; }
+.done-actions { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; }
+
+/* ---- contacts (as on ifsugar.studio/contacts) ---- */
+.contacts { background: var(--surface); padding: 32px var(--space-gutter) var(--space-section); text-align: center; } /* close under the booking card */
+.contacts-col { max-width: var(--content-width); margin: 0 auto; }
+.contacts h2 { font-size: 36px; line-height: 39.6px; letter-spacing: .72px; margin-bottom: 18px; } /* as the old „Контакти“ title */
+.contacts-phone { margin: 0 0 18px; font: 400 36px/39.6px var(--font-display); letter-spacing: .72px; color: var(--ink); }
+.contacts-phone a { color: inherit; text-decoration: none; }
+.contacts-address { margin: 14px 0 0; font: 400 14px/21px var(--font-sans); }
+.contact-buttons { display: flex; flex-direction: column; gap: 25px; width: min(540px, 42vw); margin: 50px auto 0; }
+.contact-buttons .is-button { display: block; width: 100%; transition: background-color .2s, border-color .2s, color .2s, opacity .2s; }
+.contact-buttons .fa { display: inline-block; height: 13.8px; width: auto; margin-right: 6.9px; vertical-align: -2px; }
+
+/* ---- footer (as on signup.ifsugar.studio) ---- */
+footer { padding: var(--space-section) 0 18px; text-align: center; font-size: 12px; line-height: 18px; }
+.social-links { list-style: none; margin: 0 0 25px; padding: 0; display: flex; justify-content: center; gap: 14px; }
+.social-links a { color: var(--ink); text-decoration: none; display: inline-flex; width: 42px; height: 42px; align-items: center; justify-content: center; }
+.social-links a:hover { opacity: .7; }
+.social-links svg { width: 26px; height: 26px; }
+footer p { margin: 0; }
+footer .footer-content a { color: var(--caramel-ink); }
+
+/* the phone header: announcement bar + an 80px white bar (logo left, menu button right), both fixed at the top */
+@media (max-width: 860px) {
+  .contact-buttons { width: 100%; max-width: 540px; }
+  :root { --topband-h: 47px; --bar-h: 80px; --masthead-h: 127px; }
+  html.informer-closed { --topband-h: 0px; --masthead-h: 80px; }   /* the bar closed: the header moves to the top */
+  body { padding-top: var(--masthead-h); }
+  html { scroll-padding-top: calc(var(--masthead-h) + 12px); }
+  .masthead { position: fixed; top: 0; left: 0; right: 0; z-index: 30; }
+  .topband { z-index: 2; height: var(--topband-h); font-size: 14px; line-height: 19px; }   /* ifsugar.studio on a phone: 14px, 47px tall */
+  .topband-item { padding: 14px 40px; }
+  .site-header { padding: 0; text-align: left; }
+  .header-bar { position: relative; z-index: 2; height: var(--bar-h); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; background: #fff; }
+  .site-header .logo img { height: auto; width: auto; max-height: 36px; max-width: 115px; }   /* as on ifsugar.studio on a phone */
+  .burger { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 48px; margin-right: -12px; padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer; }
+  .burger-icon { position: relative; display: block; width: 20px; height: 15px; }
+  .burger-icon span, .burger-icon span::before, .burger-icon span::after { content: ""; position: absolute; left: 0; width: 20px; height: 1px; background-color: #1e1e1e; }
+  .burger-icon span { top: 7px; transition: background-color 0s .3s; }
+  .burger-icon span::before { top: -7px; transition: top .3s .3s, transform .3s 0s; }
+  .burger-icon span::after { bottom: -7px; transition: bottom .3s .3s, transform .3s 0s; }
+  .burger[aria-expanded="true"] .burger-icon span { background-color: transparent; transition: background-color 0s .3s; }
+  .burger[aria-expanded="true"] .burger-icon span::before { top: 0; transform: rotate(45deg); transition: top .3s 0s, transform .3s .3s; }
+  .burger[aria-expanded="true"] .burger-icon span::after { bottom: 0; transform: rotate(-45deg); transition: bottom .3s 0s, transform .3s .3s; }
+  .menu { position: fixed; inset: 0; z-index: 1; padding-top: var(--masthead-h); overflow-y: auto; overscroll-behavior: contain; visibility: hidden; background-color: rgba(255, 255, 255, 0); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); transition: background-color .25s, visibility 0s .25s; }
+  .menu.is-open { visibility: visible; background-color: #fff; transition: background-color .25s; }
+  .menu .nav { display: block; margin: 0; padding: 32px 20px; max-width: none; text-align: left; }
+  .menu .nav li { display: block; margin-bottom: 14px; opacity: 0; transform: translateX(-30px); transition: transform .25s ease-out, opacity .25s ease-out; }
+  .menu .nav li + li::before { display: none; }
+  .menu.is-open .nav li { opacity: 1; transform: none; }
+  .menu.is-open .nav li:nth-child(2) { transition-delay: 50ms; }
+  .menu.is-open .nav li:nth-child(3) { transition-delay: 100ms; }
+  .menu.is-open .nav li:nth-child(4) { transition-delay: 150ms; }
+  .menu.is-open .nav li:nth-child(5) { transition-delay: 200ms; }
+  .menu.is-open .nav li:nth-child(6) { transition-delay: 250ms; }
+  .menu .nav a { display: inline-block; padding: 4px 0; font: 400 20px/28px var(--font-sans); letter-spacing: .5px; color: #1e1e1e; text-transform: uppercase; }
+  html.menu-open, html.menu-open body { overflow: hidden; }
+  html.menu-open .header-bar .logo { visibility: hidden; }
+
+  .daytime { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .times-list { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+  .time { padding: 6px 10px; }
+}
+@media (max-width: 600px) {
+  :root { --space-gutter: 16px; }
+  h1, .contacts h2, .done h2 { font-size: 30px; line-height: 34px; }
+  .day { width: 40px; height: 40px; }
+  .done-list > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .form-end, .form-end .is-button { width: 100%; }
+  .down-actions .is-button { width: 100%; }
+  .done-cal .row .is-button { flex: 1 1 100%; }
+  .done-step { padding: 14px 16px; }
+  .pay-way { padding: 10px 12px; }
+  .copy { padding: 6px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+  .sk { animation: none; }
+  .menu .nav li { transform: none !important; }
+}
+
+/* frame guard (shell.html): framed by a site that isn't ifsugar.studio, only a link to open the page on its own */
+html.framed-out body > :not(.framed-out-link) { display: none !important; }
+.framed-out-link {
+  display: block; margin: 48px 16px; text-align: center; font-size: 17px;
+  color: var(--caramel-ink); text-decoration: underline; text-underline-offset: 4px;
+}
+
+/* ---- the booking card (approved design: variant A, one card with a stepper) ---- */
+.a-band { position: relative; padding: var(--space-section) var(--space-gutter) 24px; }
+.a-band::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 330px; background: var(--surface-warm); }
+.a-intro, .a-card { position: relative; }
+.a-intro { max-width: 620px; margin: 0 auto 30px; text-align: center; }
+.a-intro p { margin: 14px 0 0; }
+.a-card { background: var(--surface); max-width: 700px; margin: 0 auto; padding: 30px 44px 44px; border: 1px solid var(--hairline); }
+.a-card[data-step="2"] { max-width: 1080px; }
+.a-card[data-step="4"] { max-width: 680px; }
+.a-card[data-step="4"] .a-bar { display: none; }
+.a-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; padding-bottom: 22px; margin-bottom: 30px; border-bottom: 1px solid var(--hairline); }
+.a-back-slot { grid-column: 1; grid-row: 1; justify-self: start; }
+.progress { grid-column: 2; grid-row: 1; list-style: none; margin: 0; padding: 0; display: flex; align-items: center; flex-wrap: wrap; justify-content: center; font-size: 12px; line-height: 18px; color: var(--muted); }
+.progress li { display: flex; align-items: center; }
+.progress li + li::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--stone); margin: 0 12px; }
+.progress .n { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--stone); font-size: 11px; margin-right: 7px; }
+.progress .is-current { color: var(--ink); font-weight: 700; }
+.progress .is-current .n { background: var(--ink); border-color: var(--ink); color: #fff; font-weight: 500; }
+.progress .is-done { color: var(--ink); }
+.progress .is-done .n { border-color: var(--ink); }
+.progress button { background: none; border: 0; padding: 4px 0; font: inherit; color: inherit; cursor: pointer; display: inline-flex; align-items: center; text-decoration: underline; text-decoration-color: var(--stone); text-underline-offset: 3px; }
+.progress button:hover { text-decoration-color: var(--ink); }
+
+/* the sessions' pictures: small rounded squares; when one can't load, the row looks right without it */
+.pic { display: block; flex: none; object-fit: cover; border-radius: 10px; background: var(--surface-warm); }
+
+/* ---- step 1: sessions ---- */
+.a-step-title { margin-bottom: 20px; }
+.a-types { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hairline); }
+.a-types li { border-bottom: 1px solid var(--hairline); }
+.a-type { width: 100%; display: flex; gap: 18px; align-items: center; padding: 14px 8px 14px 0; background: none; border: 0; text-align: left; cursor: pointer; color: var(--ink); font: inherit; min-height: 92px; }
+.a-type .bar { width: 4px; align-self: stretch; background: var(--accent); flex: none; }
+.a-type .a-pic { width: 64px; height: 64px; }
+.a-type-text { flex: 1; min-width: 0; }
+.a-type-name { display: block; font: 400 22px/27px var(--font-display); letter-spacing: .44px; }
+.a-type .meta { display: block; margin-top: 2px; }
+.a-type .go { font: 400 12px/18px var(--font-sans); letter-spacing: 1.2px; text-transform: uppercase; color: var(--caramel-ink); white-space: nowrap; flex: none; }
+button.a-type:hover { background: #faf9f8; }
+button.a-type:hover .a-type-name { text-decoration: underline; text-decoration-color: var(--stone); text-underline-offset: 4px; }
+.a-types.is-loading .a-type { cursor: default; }
+
+/* loading placeholders */
+.sk { display: block; background: linear-gradient(90deg, #efece8 0%, #f7f5f3 50%, #efece8 100%); background-size: 200% 100%; animation: sk 1.4s ease-in-out infinite; border-radius: 6px; }
+.sk-pic { width: 64px; height: 64px; border-radius: 10px; flex: none; margin-left: 22px; }
+.sk-line { height: 18px; width: 58%; margin: 4px 0 10px; }
+.sk-line.is-short { width: 22%; height: 12px; margin: 0; }
+.sk-time { height: 48px; border-radius: var(--radius-pill); }
+@keyframes sk { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+.loading-line { margin: 10px 0; color: var(--muted); }
+
+/* ---- step 2: day and time ---- */
+.a-step2 { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 0 40px; }
+.a-info { border-right: 1px solid var(--hairline); padding-right: 30px; }
+.a-info-head { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+.a-info-head .a-info-pic { width: 72px; height: 72px; }
+.a-info h2 { font-size: 26px; line-height: 30px; }
+.a-info .meta-row { flex-direction: column; gap: 6px; margin-bottom: 18px; }
+.a-info .type-desc { font-size: 13px; line-height: 20px; }
+.a-flash { margin-bottom: 20px; }
+
+/* ---- step 3: summary + form ---- */
+.a-summary { display: flex; gap: 16px 20px; align-items: center; padding: 18px 22px; background: var(--surface-warm); margin-bottom: 30px; }
+.a-summary .a-sum-pic { width: 56px; height: 56px; }
+.a-sum-text { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.a-summary .a-sum-name { font: 400 22px/26px var(--font-display); letter-spacing: .44px; }
+.a-summary .a-sum-when { font-weight: 500; }
+.a-summary .a-sum-where { color: var(--muted); font-size: 13px; }
+.a-summary .text-button { flex: none; }
+.a-form-title { margin-bottom: 18px; }
+
+@media (max-width: 1100px) {
+  .a-card[data-step="2"] { max-width: 860px; }
+  .a-step2 { grid-template-columns: minmax(0, 1fr); }
+  .a-info { border-right: 0; padding-right: 0; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid var(--hairline); }
+  .a-info-head { flex-direction: row; align-items: center; }
+  .a-info .meta-row { margin-bottom: 0; flex-direction: row; gap: 4px 18px; }
+  .a-info .type-desc { margin-top: 16px; }
+}
+@media (max-width: 700px) {
+  .a-band { padding: 0; }
+  .a-band::before { display: none; }
+  .a-intro { padding: 30px var(--space-gutter) 26px; margin: 0; max-width: none; background: var(--surface-warm); }
+  .a-card { padding: 20px var(--space-gutter) 36px; border: 0; }
+  .a-bar { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-bottom: 14px; margin-bottom: 22px; }
+  .progress { grid-column: 1; grid-row: 1; }
+  .progress li + li::before { margin: 0 8px; }
+  .progress .n { margin-right: 5px; }
+  .a-back-slot { grid-row: 2; }
+  .a-type { gap: 14px; padding: 12px 0; min-height: 80px; }
+  .a-type .a-pic { width: 56px; height: 56px; }
+  .a-type-name { font-size: 20px; line-height: 24px; }
+  .a-type .go { display: none; }
+  .sk-pic { width: 56px; height: 56px; margin-left: 18px; }
+  .a-info h2 { font-size: 24px; line-height: 28px; }
+  .a-info-head .a-info-pic { width: 64px; height: 64px; }
+  .a-summary { flex-wrap: wrap; align-items: flex-start; gap: 4px 14px; padding: 16px; }
+  .a-summary .a-sum-pic { width: 48px; height: 48px; }
+  .a-summary .a-sum-text { flex: 1 1 0; }
+  .a-summary .text-button { flex-basis: 100%; padding-bottom: 0; }
+}
+
+</style>
+</head>
+<body>
+  <a class="skip" href="#booking">Към запазването на час</a>
+  <div class="masthead" id="masthead">
+    <div class="topband" id="informer">
+      <a class="topband-link" href="https://signup.ifsugar.studio/"><span class="topband-item"><b>👀 Абонатите ни&nbsp;знаят нещо, което ти&nbsp;не&nbsp;знаеш… 👀</b></span></a>
+      <button type="button" class="topband-close" aria-label="Затвори съобщението"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false"><path d="M4.5 4.5l11 11M15.5 4.5l-11 11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+    </div>
+    <header class="site-header">
+      <div class="header-bar">
+        <a class="logo" href="https://ifsugar.studio/" aria-label="If Sugar Photography — към сайта">
+          <img src="https://i.wfolio.com/x/j0bvlFLkG4qG1bh7gdUtYUjdfbuxm2sX/c9Zx6kBfUlRi2dFYVV5Y4u5C_UVJ6vHm/BLXexR4-H_k4J_3L9RvKRVHSmUf3dI9f/NbLBuwEN5WLsA8ZH5CYFitvhwvFfdB0r.png" alt="If Sugar Photography" width="254" height="79" onerror="this.onerror=null;this.src='/logo.png'">
+        </a>
+        <button type="button" class="burger" id="menu-button" aria-expanded="false" aria-controls="menu" aria-label="Меню"><span class="burger-icon" aria-hidden="true"><span></span></span></button>
+      </div>
+      <nav class="menu" id="menu" aria-label="Основно меню">
+        <ul class="nav">
+          <li><a href="https://ifsugar.studio/portfolio">Портфолио и цени</a></li>
+          <li><a href="https://ifsugar.studio/insidethestudio">Студио</a></li>
+          <li><a href="https://ifsugar.studio/charity">Благотворителност</a></li>
+          <li><a href="https://ifsugar.studio/for-me">За нас</a></li>
+          <li><a href="https://ifsugar.studio/contacts">Контакти</a></li>
+          <li><a href="https://ifsugar.studio/comments">Отзиви</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <main id="booking" tabindex="-1">
+    <section class="a-band">
+      <div class="a-intro">
+        <h1>Запазете час</h1>
+        <p>Изберете фотосесия, удобен ден и час и ни разкажете малко за себе си. Ще Ви очакваме в студиото в Студентски град.</p>
+      </div>
+      <div class="a-card" id="a-card" data-step="1">
+        <div class="a-bar">
+          <ol class="progress" id="a-progress" aria-label="Стъпки"></ol>
+          <div class="a-back-slot" id="a-back-slot"></div>
+        </div>
+        <div id="a-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <section class="contacts" aria-labelledby="contacts-title">
+    <div class="contacts-col">
+      <h2 id="contacts-title">Имате въпроси:</h2>
+      <p class="contacts-phone"><a href="tel:+359896626321">+359 896 626 321</a></p>
+      <p class="contacts-address">ул. Акад. Йордан Трифонов 5, София</p>
+      <div class="contact-buttons">
+        <!-- the two icons: Font Awesome Free 6 brand glyphs (fontawesome.com, CC BY 4.0) -->
+        <a class="is-button" href="https://www.instagram.com/ifsugar.photography/" target="_blank" rel="noopener"><svg class="fa" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>Свържете се&nbsp;с&nbsp;мен във Instagram</a>
+        <a class="is-button" href="https://www.facebook.com/IfSugarPhotography" target="_blank" rel="noopener"><svg class="fa" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg>Свържете се&nbsp;с&nbsp;мен&nbsp;във Facebook</a>
+        <a class="is-button" href="viber://chat?number=359896626321">💬 Свържете се&nbsp;с&nbsp;мен във Viber</a>
+        <a class="is-button" href="https://signup.ifsugar.studio/">📨 Абонирайте се&nbsp;за&nbsp;специални предложения</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="column">
+      <ul class="social-links">
+        <li><a href="https://www.instagram.com/ifsugar.photography/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></a></li>
+        <li><a href="https://wa.me/359896626321" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3.6 20.4l1.2-3.9a8.6 8.6 0 1 1 3.3 3z" stroke-linejoin="round"/><path d="M9.1 8.1c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.4 2.3.2.1.4.1.5-.1l.5-.6c.2-.2.4-.2.6-.1l1.6.8c.2.1.3.3.3.5v.4c0 .4-.2.8-.6 1-.6.3-1.4.4-2.2.1-1.9-.6-3.5-2.1-4.4-3.9-.4-.8-.5-1.6-.2-2.4z" fill="currentColor" stroke="none"/></svg></a></li>
+        <li><a href="https://www.facebook.com/IfSugarPhotography" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></li>
+      </ul>
+      <div class="footer-content">
+        <p><b>If&nbsp;Sugar Photography</b> | © 2027 | Детски и семеен фотограф | <a href="https://ifsugar.studio/terms-and-conditions">Общи условия</a></p>
+      </div>
+    </div>
+  </footer>
+
+<script>
+/* If Sugar Photography — the booking page (book.ifsugar.studio): shared logic.
+   Everything about the sessions comes live from Calendly through the studio's gatekeeper (a Cloudflare Worker,
+   gateway/src/worker.js); nothing about them is part of this page:
+     GET  GATE/book/types[?s=<key>]               session types: names, durations, descriptions, questions
+     GET  GATE/book/times?type=<key>&month=YYYY-MM free start times (ISO, UTC)
+     GET  GATE/book/img/<key>                     a small picture from the portfolio
+     POST GATE/book                               books the time (text/plain JSON, behind Cloudflare's robot check)
+   Only the page's frame (header, contacts, footer), the studio's address and the deposit payment details live here. */
+var IS = (function () {
+  'use strict';
+
+  // ---------- settings ----------
+  var GATE = 'https://ifsugar-gate.ifsugar.workers.dev';
+  (function () {
+    // tests: a gatekeeper on this computer, only when the page itself is opened from this computer
+    if (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
+    var g = new URLSearchParams(location.search).get('gate');
+    if (g && /^http:\/\/(localhost|127\.0\.0\.1):\d{2,5}$/.test(g)) GATE = g;
+  })();
+  var TZ = 'Europe/Sofia';
+  var ADDRESS = 'ул. Акад. Йордан Трифонов 5, София';
+  var MAPS = 'https://www.google.com/maps?cid=7658980181847393365';
+  var PHONE = '+359 896 626 321';
+  var PHONE_HREF = 'tel:+359896626321';
+  var VIBER = 'viber://chat?number=%2B359896626321';
+  var CALENDLY_PAGE = 'https://calendly.com/ifsugar-studio';
+  var TERMS = 'https://ifsugar.studio/terms-and-conditions';
+  var TURNSTILE_KEY = '0x4AAAAAAFMl6qcyrr5_tDeM';
+  var GA_ID = 'G-JRZSQSVZ8R';
+  var PIXEL_ID = '952821706538056';
+  var PAY = { revolutTag: '@ivazzrzc', revolutUrl: 'https://revolut.me/ivazzrzc', iban: 'BG71BPBI79421200073108', bank: 'Paysera', holder: 'Ива Антонова ЕООД' };
+  var SEARCH_MONTHS = 6;   // how far ahead the first free day is looked for
+  var NAV_MONTHS = 12;     // how far ahead the calendar goes
+
+  var WD_LONG = ['неделя', 'понеделник', 'вторник', 'сряда', 'четвъртък', 'петък', 'събота'];
+  var WD_SHORT = ['нед', 'пон', 'вт', 'ср', 'чет', 'пет', 'съб'];
+  var WD_CAL = [['пн', 'понеделник'], ['вт', 'вторник'], ['ср', 'сряда'], ['чт', 'четвъртък'], ['пт', 'петък'], ['сб', 'събота'], ['нд', 'неделя']];
+  var MONTHS = ['януари', 'февруари', 'март', 'април', 'май', 'юни', 'юли', 'август', 'септември', 'октомври', 'ноември', 'декември'];
+  var MONTHS_SHORT = ['яну', 'фев', 'мар', 'апр', 'май', 'юни', 'юли', 'авг', 'сеп', 'окт', 'ное', 'дек'];
+
+  var ICON = {
+    clock: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><circle cx="8" cy="8" r="6.4"/><path d="M8 4.6V8l2.4 1.6"/></svg>',
+    pin: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M8 14.5s4.6-4.2 4.6-7.9A4.6 4.6 0 0 0 3.4 6.6c0 3.7 4.6 7.9 4.6 7.9z"/><circle cx="8" cy="6.6" r="1.7"/></svg>',
+    prev: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>',
+    next: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
+  };
+
+  // ---------- small DOM helpers ----------
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      var v = attrs[k];
+      if (v === null || v === undefined || v === false) return;
+      if (k === 'html') el.innerHTML = v;            // only ever the fixed icons above
+      else if (k === 'text') el.textContent = v;
+      else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? '' : v);
+    });
+    for (var i = 2; i < arguments.length; i++) {
+      var c = arguments[i];
+      if (c === null || c === undefined || c === false) continue;
+      if (Array.isArray(c)) c.forEach(function (x) { if (x !== null && x !== undefined && x !== false) el.append(x); });
+      else el.append(c);
+    }
+    return el;
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // on phones the announcement bar and the header stay at the top: nothing may scroll under them
+  function headerOffset() {
+    var m = document.getElementById('masthead');
+    return m && window.getComputedStyle(m).position === 'fixed' ? m.getBoundingClientRect().bottom : 0;
+  }
+  function scrollToEl(el, offset) {
+    var y = el.getBoundingClientRect().top + window.pageYOffset - headerOffset() - (offset || 16);
+    window.scrollTo({ top: Math.max(0, y), behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+
+  // text from Calendly -> nodes: https addresses become safe links, nothing is ever read as HTML
+  var URL_RE = /https:\/\/[^\s<>"'\])]+/g;
+  function cleanUrl(u) { return u.replace(/[.,;:!?]+$/, ''); }
+  function linkText(s) {
+    var out = [], last = 0, m;
+    s = String(s);
+    URL_RE.lastIndex = 0;
+    while ((m = URL_RE.exec(s))) {
+      var url = cleanUrl(m[0]);
+      if (m.index > last) out.push(document.createTextNode(s.slice(last, m.index)));
+      out.push(h('a', { class: 'link', href: url, target: '_blank', rel: 'noopener noreferrer' }, url.replace(/^https:\/\//, '').replace(/\/$/, '')));
+      last = m.index + url.length;
+      URL_RE.lastIndex = last;
+    }
+    if (last < s.length) out.push(document.createTextNode(s.slice(last)));
+    return out;
+  }
+  // a description: blank lines -> paragraphs, single line breaks kept
+  function paragraphs(text) {
+    var frag = document.createDocumentFragment();
+    String(text || '').replace(/\r\n?/g, '\n').split(/\n[ \t]*\n/).forEach(function (para) {
+      para = para.replace(/^\s+|\s+$/g, '');
+      if (!para) return;
+      var p = h('p');
+      para.split('\n').forEach(function (line, i) { if (i) p.append(h('br')); p.append.apply(p, linkText(line.trim())); });
+      frag.append(p);
+    });
+    return frag;
+  }
+
+  // ---------- the gatekeeper ----------
+  function api(path, opts) {
+    opts = opts || {};
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, opts.timeout || 20000) : null;
+    return fetch(GATE + path, {
+      method: opts.method || 'GET',
+      headers: opts.body ? { 'Content-Type': 'text/plain' } : undefined,   // no permission question first
+      body: opts.body, credentials: 'omit', signal: ctl ? ctl.signal : undefined
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (b) { if (timer) clearTimeout(timer); return { status: res.status, body: b || {} }; });
+    }, function (e) { if (timer) clearTimeout(timer); throw { network: true, error: e }; });
+  }
+
+  // ---------- session types ----------
+  var TYPES = [];
+  var byKey = {};
+  // live names, tidied for reading only: "12-24 м" -> "12–24 м" kept on one line; " - " -> " – "
+  function tidyName(n) {
+    return String(n || '').replace(/\s+/g, ' ').trim()
+      .replace(/(\d)\s*-\s*(\d)/g, '$1\u2060–\u2060$2')
+      .replace(/(\d) (?=[^\s\d]{1,4}(\s|$|[),.]))/g, '$1\u00a0')
+      .replace(/ - /g, '\u00a0– ');
+  }
+  function imageOf(key) { return GATE + '/book/img/' + encodeURIComponent(key); }
+  function loadTypes(s) {
+    return api('/book/types' + (s ? '?s=' + encodeURIComponent(s) : '')).then(function (r) {
+      if (r.status !== 200 || !Array.isArray(r.body.types)) throw r;
+      TYPES = r.body.types.filter(function (t) { return t && /^[a-z0-9-]{1,48}$/.test(t.key) && t.name; }).map(function (t) {
+        return {
+          key: t.key, name: String(t.name), title: tidyName(t.name), duration: Number(t.duration) || 60,
+          description: typeof t.description === 'string' ? t.description : '',
+          color: /^#[0-9a-f]{3,8}$/i.test(t.color || '') ? t.color : '#aa8d74',
+          location: typeof t.location === 'string' ? t.location.trim() : '', secret: t.secret === true,
+          image: imageOf(t.key),
+          questions: (Array.isArray(t.questions) ? t.questions : []).filter(function (q) { return q && typeof q.name === 'string'; })
+            .map(function (q) { return { name: q.name, type: q.type, required: q.required === true, choices: Array.isArray(q.choices) ? q.choices : [], other: q.other === true, position: Number(q.position) || 0 }; })
+            .sort(function (a, b) { return a.position - b.position; })
+        };
+      });
+      byKey = {};
+      TYPES.forEach(function (t) { byKey[t.key] = t; });
+      return TYPES;
+    });
+  }
+  function typeByKey(k) { return byKey[k] || null; }
+  function duration(min) {
+    if (min % 60 === 0) return min === 60 ? '1 час' : (min / 60) + ' часа';
+    return min + ' мин';
+  }
+  // the session's picture: square, lazy; if it can't be loaded it simply isn't there
+  function picture(type, cls, size) {
+    var img = h('img', { class: 'pic ' + (cls || ''), src: type.image, alt: type.title, width: String(size || 64), height: String(size || 64), loading: 'lazy', decoding: 'async' });
+    img.addEventListener('error', function () { img.remove(); });
+    return img;
+  }
+  // the place: the studio's address (or the place Calendly names, if it's somewhere else)
+  function typeMeta(type) {
+    var loc = type.location || 'If Sugar Photography';
+    var place = /if\s*sugar/i.test(loc) ? ADDRESS : loc;
+    return h('div', { class: 'meta-row' },
+      h('span', { html: ICON.clock + '<span>' + esc(duration(type.duration)) + '</span>' }),
+      h('span', { class: 'meta-place', html: ICON.pin + '<span class="meta-address">' + esc(place) + '</span>' }));
+  }
+
+  // ---------- dates in Sofia time ----------
+  var dtf = new Intl.DateTimeFormat('en-GB', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  function sofiaParts(date) {
+    var p = {};
+    dtf.formatToParts(date).forEach(function (x) { p[x.type] = x.value; });
+    return { y: +p.year, m: +p.month, d: +p.day, h: (+p.hour) % 24, mi: +p.minute };
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function keyOf(y, m, d) { return y + '-' + pad(m) + '-' + pad(d); }
+  function parseKey(k) { var a = k.split('-'); return { y: +a[0], m: +a[1], d: +a[2] }; }
+  function addDays(k, n) { var p = parseKey(k); var dt = new Date(Date.UTC(p.y, p.m - 1, p.d + n)); return keyOf(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate()); }
+  function weekday(k) { var p = parseKey(k); return new Date(Date.UTC(p.y, p.m - 1, p.d)).getUTCDay(); }
+  function dayKeyOfDate(date) { var p = sofiaParts(date); return keyOf(p.y, p.m, p.d); }
+  function hhmm(date) { var p = sofiaParts(date); return pad(p.h) + ':' + pad(p.mi); }
+  var TODAY = dayKeyOfDate(new Date());
+  function ymOf(k) { return k.slice(0, 7); }
+  function addMonths(ym, n) { var y = +ym.slice(0, 4), m = +ym.slice(5, 7) - 1 + n; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return y + '-' + pad(m + 1); }
+  var MIN_YM = ymOf(TODAY), MAX_YM = addMonths(MIN_YM, NAV_MONTHS);
+
+  function dayLong(k) { var p = parseKey(k); return WD_LONG[weekday(k)] + ', ' + p.d + ' ' + MONTHS[p.m - 1]; }
+  function dayLongYear(k) { return dayLong(k) + ' ' + parseKey(k).y + ' г.'; }
+  function dayShort(k) { var p = parseKey(k); return WD_SHORT[weekday(k)] + ', ' + p.d + ' ' + MONTHS_SHORT[p.m - 1]; }
+  function dayNumeric(k) { var p = parseKey(k); return pad(p.d) + '.' + pad(p.m) + '.' + p.y; }
+  function monthTitle(ym) { var m = MONTHS[+ym.slice(5, 7) - 1]; return m.charAt(0).toUpperCase() + m.slice(1) + ' ' + ym.slice(0, 4); }
+  function endTime(start, mins) { var a = start.split(':'); var t = +a[0] * 60 + +a[1] + mins; return pad(Math.floor(t / 60) % 24) + ':' + pad(t % 60); }
+
+  // ---------- free times, live (kept two minutes on the page) ----------
+  var timesCache = {};
+  function fetchTimes(type, ym) {
+    var ck = type.key + '|' + ym, hit = timesCache[ck];
+    if (hit && Date.now() - hit.at < 120000) return hit.p;
+    var p = api('/book/times?type=' + encodeURIComponent(type.key) + '&month=' + ym).then(function (r) {
+      if (r.status !== 200 || !Array.isArray(r.body.times)) throw r;
+      return r.body.times.filter(function (x) { return typeof x === 'string' && !isNaN(Date.parse(x)) && Date.parse(x) > Date.now(); });
+    });
+    timesCache[ck] = { at: Date.now(), p: p };
+    p.catch(function () { if (timesCache[ck] && timesCache[ck].p === p) delete timesCache[ck]; });
+    return p;
+  }
+  function forgetTimes(key) { Object.keys(timesCache).forEach(function (k) { if (k.indexOf(key + '|') === 0) delete timesCache[k]; }); }
+  function groupByDay(isoList) {
+    var out = {};
+    isoList.forEach(function (iso) { var dt = new Date(iso), k = dayKeyOfDate(dt); (out[k] = out[k] || []).push({ iso: iso, time: hhmm(dt) }); });
+    return out;
+  }
+  function firstFreeDay(type) {
+    var ym = MIN_YM, last = addMonths(MIN_YM, SEARCH_MONTHS - 1);
+    return (function next() {
+      return fetchTimes(type, ym).then(function (list) {
+        if (list.length) return dayKeyOfDate(new Date(list[0]));
+        if (ym >= last) return null;
+        ym = addMonths(ym, 1);
+        return next();
+      });
+    })();
+  }
+  // the chosen day and time -> its ISO start, if it is still free
+  function slotIso(type, k, t) {
+    return fetchTimes(type, ymOf(k)).then(function (l) { var s = (groupByDay(l)[k] || []).filter(function (x) { return x.time === t; })[0]; return s ? s.iso : null; });
+  }
+
+  // ---------- when the gatekeeper or Calendly can't be reached ----------
+  function downBox(opts) {
+    opts = opts || {};
+    var box = h('div', { class: 'down' + (opts.compact ? ' is-compact' : ''), role: opts.compact ? 'alert' : null });
+    box.append(h(opts.compact ? 'p' : 'h2', { class: 'down-title', tabindex: opts.compact ? null : '-1' }, opts.title || 'Онлайн записването в момента не работи'));
+    box.append(h('p', null, opts.text || 'Моля, опитайте отново след малко или се свържете с нас — с удоволствие ще Ви запазим час.'));
+    box.append(h('div', { class: 'down-actions' },
+      h('a', { class: 'is-button', href: PHONE_HREF }, 'Обадете се: ' + PHONE),
+      h('a', { class: 'is-button is-outline', href: VIBER }, 'Пишете ни във Viber')));
+    box.append(h('p', { class: 'down-alt' }, 'Можете да запазите час и през ', h('a', { class: 'link', href: CALENDLY_PAGE, target: '_blank', rel: 'noopener' }, 'страницата ни в Calendly'), '.'));
+    if (opts.retry) box.append(h('button', { type: 'button', class: 'text-button', onclick: opts.retry }, 'Опитайте отново'));
+    return box;
+  }
+
+  // ---------- step 2: calendar + times ----------
+  // opts: { day, onDay(key), onTime(key, 'HH:MM'), headingTag }
+  function mountDayTime(root, type, opts) {
+    opts = opts || {};
+    root.innerHTML = '';
+    var uid = 'dt' + Math.random().toString(36).slice(2, 7);
+    var cal = h('div', { class: 'cal' });
+    var times = h('div', { class: 'times', 'aria-live': 'polite' });
+    root.append(h('div', { class: 'daytime' }, cal, times));
+    var ym = opts.day ? ymOf(opts.day) : MIN_YM;
+    var selected = opts.day || null;
+    var byDay = {};
+    var note = '';
+    var failed = false;
+
+    function renderCal(loading) {
+      cal.innerHTML = '';
+      cal.classList.toggle('is-loading', !!loading);
+      var prev = h('button', { type: 'button', class: 'cal-nav', 'aria-label': 'Предишен месец', html: ICON.prev, disabled: ym <= MIN_YM, onclick: function () { go(addMonths(ym, -1)); } });
+      var next = h('button', { type: 'button', class: 'cal-nav', 'aria-label': 'Следващ месец', html: ICON.next, disabled: ym >= MAX_YM, onclick: function () { go(addMonths(ym, 1)); } });
+      var title = h('h3', { class: 'cal-month', id: uid + '-m', 'aria-live': 'polite' }, monthTitle(ym));
+      cal.append(h('div', { class: 'cal-head' }, prev, title, next));
+      var table = h('table', { class: 'cal-grid', 'aria-labelledby': uid + '-m', 'aria-busy': loading ? 'true' : null });
+      table.append(h('thead', null, h('tr', null, WD_CAL.map(function (w) { return h('th', { scope: 'col', abbr: w[1] }, w[0]); }))));
+      var tb = h('tbody'), y = +ym.slice(0, 4), m = +ym.slice(5, 7), days = new Date(Date.UTC(y, m, 0)).getUTCDate();
+      var first = (weekday(keyOf(y, m, 1)) + 6) % 7, tr = h('tr'), cell = 0;
+      for (var i = 0; i < first; i++, cell++) tr.append(h('td'));
+      var rove = null;
+      for (var d = 1; d <= days; d++, cell++) {
+        if (cell && cell % 7 === 0) { tb.append(tr); tr = h('tr'); }
+        var k = keyOf(y, m, d), free = !loading && !!byDay[k];
+        var cls = 'day' + (free ? ' is-free' : '') + (k === selected ? ' is-selected' : '') + (k === TODAY ? ' is-today' : '');
+        var label = dayLongYear(k) + (k === TODAY ? ', днес' : '') + (free ? '' : ', няма свободни часове');
+        var b = h('button', { type: 'button', class: cls, 'data-key': k, disabled: !free, tabindex: '-1', 'aria-label': label, 'aria-pressed': free ? String(k === selected) : null, 'aria-current': k === TODAY ? 'date' : null }, String(d));
+        if (free) b.addEventListener('click', pick);
+        if (free && (k === selected || !rove)) rove = rove && rove.classList.contains('is-selected') ? rove : b;
+        tr.append(h('td', null, b));
+      }
+      while (cell % 7) { tr.append(h('td')); cell++; }
+      tb.append(tr);
+      table.append(tb);
+      if (rove) rove.setAttribute('tabindex', '0');
+      table.addEventListener('keydown', keys);
+      cal.append(table);
+      cal.append(h('div', { class: 'cal-foot', 'aria-hidden': 'true' },
+        h('span', { class: 'key' }, h('span', { class: 'dot-free' }), 'има свободни часове'),
+        h('span', { class: 'key' }, h('span', { class: 'dot-today' }), 'днес')));
+      var status = h('p', { class: 'cal-status', role: 'status' });
+      if (loading) status.textContent = 'Зареждаме свободните часове…';
+      else if (failed) {
+        status.className = 'cal-status is-error';
+        status.append('Не успяхме да заредим свободните часове. ', h('button', { type: 'button', class: 'text-button', onclick: function () { go(ym); } }, 'Опитайте отново'));
+      } else if (!Object.keys(byDay).length) {
+        status.textContent = 'През ' + MONTHS[m - 1] + ' няма свободни часове за тази фотосесия. ';
+        if (ym < MAX_YM) status.append(h('button', { type: 'button', class: 'text-button', onclick: function () { go(addMonths(ym, 1)); } }, 'Вижте ' + MONTHS[m % 12] + ' →'));
+      } else if (note) status.textContent = note;
+      if (status.textContent) cal.append(status);
+    }
+    function keys(e) {
+      var map = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
+      if (!(e.key in map) && e.key !== 'Home' && e.key !== 'End') return;
+      var btns = Array.prototype.slice.call(cal.querySelectorAll('.day.is-free'));
+      var cur = document.activeElement, i = btns.indexOf(cur);
+      if (i < 0 || !btns.length) return;
+      e.preventDefault();
+      var target;
+      if (e.key === 'Home') target = btns[0];
+      else if (e.key === 'End') target = btns[btns.length - 1];
+      else {
+        var step = map[e.key], want = addDays(cur.getAttribute('data-key'), step);
+        if (Math.abs(step) === 1) target = btns[i + step];
+        else if (step > 0) target = btns.filter(function (b) { return b.getAttribute('data-key') >= want; })[0];
+        else target = btns.filter(function (b) { return b.getAttribute('data-key') <= want; }).pop();
+      }
+      if (!target) return;
+      btns.forEach(function (b) { b.setAttribute('tabindex', '-1'); });
+      target.setAttribute('tabindex', '0');
+      target.focus();
+    }
+    function pick(e) {
+      var k = e.currentTarget.getAttribute('data-key');
+      selected = k;
+      note = '';
+      renderCal(false);
+      var b = cal.querySelector('[data-key="' + k + '"]');
+      if (b) b.focus();
+      renderTimes();
+      if (opts.onDay) opts.onDay(k);
+    }
+    function renderTimes(loading) {
+      times.innerHTML = '';
+      var tag = opts.headingTag || 'h3';
+      if (loading) {
+        var sk = h('ul', { class: 'times-list', 'aria-hidden': 'true' });
+        for (var i = 0; i < 4; i++) sk.append(h('li', null, h('span', { class: 'sk sk-time' })));
+        times.append(h(tag, { class: 'times-day' }, 'Свободни часове'), sk);
+        return;
+      }
+      if (!selected || !byDay[selected]) {
+        times.append(h(tag, { class: 'times-day' }, 'Свободни часове'), h('p', { class: 'times-empty' }, 'Изберете ден от календара, за да видите свободните часове.'));
+        return;
+      }
+      var list = h('ul', { class: 'times-list', 'aria-label': 'Свободни часове за ' + dayLong(selected) });
+      byDay[selected].forEach(function (s) {
+        list.append(h('li', null, h('button', {
+          type: 'button', class: 'time', 'aria-label': s.time + ' часа',
+          onclick: function () { if (opts.onTime) opts.onTime(selected, s.time); }
+        }, h('span', { class: 't' }, s.time))));
+      });
+      times.append(h(tag, { class: 'times-day' }, dayLong(selected)), list);
+    }
+    function go(target) {
+      ym = target;
+      failed = false;
+      renderCal(true);
+      if (!selected) renderTimes(true);
+      return fetchTimes(type, ym).then(function (list) {
+        if (ym !== target) return;
+        byDay = groupByDay(list);
+        renderCal(false);
+        renderTimes();
+      }, function () {
+        if (ym !== target) return;
+        failed = true;
+        byDay = {};
+        renderCal(false);
+        renderTimes();
+      });
+    }
+    var ready;
+    if (opts.day) ready = go(ym);
+    else {
+      renderCal(true);
+      renderTimes(true);
+      ready = firstFreeDay(type).then(function (k) {
+        var target = k ? ymOf(k) : MIN_YM;
+        if (k && target !== MIN_YM) note = 'Най-близкият свободен ден е ' + dayLong(k) + '.';
+        if (!k) note = '';
+        return go(target);
+      }, function () { return go(MIN_YM); });
+    }
+    return { ready: ready };
+  }
+
+  // ---------- step 3: the form, from the live questions ----------
+  function tidyLines(s) {
+    return String(s).replace(/\u00a0/g, ' ').split('\n').map(function (l) {
+      return l.replace(/\s+/g, ' ').replace(/\s+([?:!.,)])/g, '$1').trim();
+    }).filter(Boolean);
+  }
+  // question text -> { label: [lines], hint: [lines] }; the original text is what is sent back
+  function questionText(name) {
+    var label = [], hint = [];
+    tidyLines(name).forEach(function (line, i) {
+      line = line.replace(/\(?\s*отговорът не е задължителен\s*\)?/i, '').trim();
+      if (!line) return;
+      if (/^\(.*\)$/.test(line)) { hint.push(line.slice(1, -1)); return; }
+      var m = line.match(/^(.+?\?)\s+(.{10,})$/);
+      if (m && !/https:\/\//.test(m[1])) { label.push(m[1]); hint.push(m[2].replace(/^\((.*)\)$/, '$1').replace(/^([^(]*)\)$/, '$1')); return; }
+      if (i > 0 && /\.$/.test(line)) { hint.push(line); return; }
+      label.push(line);
+    });
+    return { label: label, hint: hint };
+  }
+  function isSingleBox(q) { return q.type === 'multi_select' && q.choices.length === 1; }
+  function isDeposit(q) { return /капаро/i.test(q.name); }
+  // the deposit, as the live question says it: "капаро 50 € ?" -> "50 €"; "капаро (70 лв. / 35.79 €) ?" -> "70 лв. / 35.79 €"
+  function depositInfo(type) {
+    var q = type.questions.filter(isDeposit)[0];
+    if (!q) return null;
+    var text = tidyLines(q.name).join(' ');
+    var m = text.match(/капаро\s*\(?\s*([^?()]*?\d[^?()]*?)\s*\)?\s*\?/i);
+    var hm = text.match(/(\d+)\s*час/i);
+    return { q: q, amount: m ? m[1].replace(/\s+/g, ' ').replace(/\s*\/\s*/g, ' / ').trim() : '', hours: hm ? +hm[1] : null };
+  }
+  // the declaration with the terms: the words "общите условия" link to the address in the question
+  function singleBoxLabel(q) {
+    var urls = q.name.match(URL_RE);
+    var text = tidyLines(q.name).join(' ');
+    if (!urls) return linkText(text);
+    var url = cleanUrl(urls[0]);
+    text = text.replace(/https:\/\/\S+/g, '').replace(/\s+/g, ' ').replace(/\s+([?:!.,])/g, '$1').replace(/[\s:!]+$/, '').trim();
+    var i = text.indexOf('общите условия');
+    var a = function (t) { return h('a', { class: 'link', href: url, target: '_blank', rel: 'noopener noreferrer' }, t); };
+    if (i < 0) return [text + ' (', a(url.replace(/^https:\/\//, '')), ')'];
+    return [text.slice(0, i), a('общите условия'), text.slice(i + 'общите условия'.length)];
+  }
+  var EMAIL_OK = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
+  function phoneNormal(v) {
+    var d = String(v).replace(/[\s\-().\/]/g, '');
+    if (/^00\d/.test(d)) d = '+' + d.slice(2);
+    if (/^0\d{8,9}$/.test(d)) d = '+359' + d.slice(1);
+    if (/^\+3590\d{8,9}$/.test(d)) d = '+359' + d.slice(5);
+    return d;
+  }
+  var MSG = {
+    name: 'Моля, напишете името си.',
+    email: 'Моля, въведете валиден имейл адрес, например maria@gmail.com.',
+    phoneEmpty: 'Моля, напишете телефонен номер, на който да Ви намерим.',
+    phoneBad: 'Номерът изглежда непълен. Пример: +359 888 123 456.',
+    text: 'Моля, попълнете това поле.',
+    single: 'Моля, изберете един от отговорите.',
+    multi: 'Моля, изберете поне един отговор.',
+    other: 'Моля, напишете какво имате предвид с „Друго“.',
+    box: 'За да запазите час, трябва да отбележите това поле.',
+    server: 'Моля, проверете този отговор.'
+  };
+
+  // store: { [fieldId]: value }, kept by the page so answers survive going back and forth
+  // opts.submit(payload) -> Promise of { ok: true } or { code, field, status }
+  function renderForm(type, store, opts) {
+    opts = opts || {};
+    var form = h('form', { class: 'bk-form', novalidate: true, 'aria-label': 'Вашите данни' });
+    var fields = [];
+    var tried = false;
+    form.append(h('p', { class: 'form-note' }, 'Всички полета са задължителни, освен отбелязаните „по желание“.'));
+
+    function errorEl(id) { return h('p', { class: 'field-error', id: id + '-err', hidden: true }); }
+    function setError(f, msg) {
+      f.err.textContent = msg || '';
+      f.err.hidden = !msg;
+      var target = f.group || f.input;
+      if (msg) target.setAttribute('aria-invalid', 'true'); else target.removeAttribute('aria-invalid');
+    }
+    function labelEl(forId, lines, optional, tag) {
+      var lab = h(tag || 'label', { class: 'f-label', for: tag ? null : forId });
+      lines.forEach(function (l, i) { lab.append(h('span', { class: 'line' }, linkText(l), (optional && i === lines.length - 1) ? h('span', { class: 'opt' }, 'по желание') : null)); });
+      return lab;
+    }
+    function hintEl(id, lines) { return lines.length ? h('p', { class: 'f-hint', id: id + '-hint' }, linkText(lines.join(' '))) : null; }
+    function describe(el, id, hasHint) { el.setAttribute('aria-describedby', (hasHint ? id + '-hint ' : '') + id + '-err'); }
+    function keep(el, id) {
+      if (store[id] !== undefined) el.value = store[id];
+      el.addEventListener('input', function () { store[id] = el.value; changed(id); });
+    }
+    function changed(id) { var f = fields.filter(function (x) { return x.id === id; })[0]; if (f) f.serverError = ''; revalidate(); }
+
+    function textField(id, label, attrs, validate, hintLines) {
+      var input = h('input', Object.assign({ class: 'input', id: id, name: id, type: 'text' }, attrs));
+      keep(input, id);
+      var hint = hintEl(id, hintLines || []);
+      describe(input, id, !!hint);
+      var f = { id: id, input: input, err: errorEl(id), validate: function () { return validate(input.value.trim()); } };
+      f.el = h('div', { class: 'field' }, labelEl(id, [label]), hint, input, f.err);
+      return f;
+    }
+
+    var nameF = textField('f-name', 'Вашето име', { autocomplete: 'name', required: true, maxlength: '100' }, function (v) { return v.length < 2 ? MSG.name : null; });
+    var emailF = textField('f-email', 'Имейл', { type: 'email', autocomplete: 'email', inputmode: 'email', required: true, spellcheck: 'false', maxlength: '254' }, function (v) { return EMAIL_OK.test(v) ? null : MSG.email; }, ['На него ще получите потвърждение от Calendly.']);
+    nameF.server = 'name'; emailF.server = 'email';
+    fields.push(nameF, emailF);
+
+    type.questions.forEach(function (q) {
+      var id = 'f-q' + q.position, txt = questionText(q.name), optional = !q.required, f;
+      if (isSingleBox(q)) {
+        var box = h('input', { type: 'checkbox', id: id, name: id });
+        box.checked = !!store[id];
+        box.addEventListener('change', function () { store[id] = box.checked; changed(id); });
+        describe(box, id, false);
+        if (q.required) box.setAttribute('aria-required', 'true');
+        f = { id: id, q: q, input: box, err: errorEl(id),
+          validate: function () { return q.required && !box.checked ? MSG.box : null; },
+          answer: function () { return box.checked ? q.choices[0] : ''; } };
+        f.el = h('div', { class: 'field' }, h('label', { class: 'check-row', for: id }, box, h('span', null, singleBoxLabel(q), optional ? h('span', { class: 'opt' }, 'по желание') : null)), f.err);
+      } else if (q.type === 'single_select' || q.type === 'multi_select') {
+        var multi = q.type === 'multi_select';
+        var choices = q.choices.map(function (c) { return { value: c, text: tidyLines(c).join(' ').replace(/ - /g, ' – ') }; });
+        var inline = choices.every(function (c) { return c.text.length <= 16; }) && choices.length <= 8;
+        var group = h('fieldset', { class: 'field', id: id + '-group' });
+        var legend = labelEl(null, txt.label, optional, 'legend');
+        var list = h('div', { class: 'choices' + (inline ? ' is-inline' : ''), role: multi ? null : 'radiogroup' });
+        var saved = store[id] || (multi ? [] : '');
+        var inputs = choices.map(function (c, i) {
+          var inp = h('input', { type: multi ? 'checkbox' : 'radio', name: id, id: id + '-' + i, value: c.value });
+          inp.checked = multi ? saved.indexOf(c.value) >= 0 : saved === c.value;
+          list.append(h('label', { class: 'choice', for: id + '-' + i }, inp, h('span', null, c.text)));
+          return inp;
+        });
+        var other = null, otherText = null;
+        if (q.other) {
+          other = h('input', { type: multi ? 'checkbox' : 'radio', name: id, id: id + '-other', value: '__other' });
+          otherText = h('input', { class: 'input other-text', id: id + '-other-text', type: 'text', 'aria-label': 'Друго — напишете какво', placeholder: 'Напишете какво', maxlength: '255', hidden: true });
+          other.checked = !!store[id + '-other'];
+          otherText.hidden = !other.checked;
+          if (store[id + '-other-text']) otherText.value = store[id + '-other-text'];
+          other.setAttribute('aria-controls', id + '-other-text');
+          other.setAttribute('aria-expanded', String(other.checked));
+          list.append(h('label', { class: 'choice', for: id + '-other' }, other, h('span', null, 'Друго')));
+          list.append(otherText);
+          otherText.addEventListener('input', function () { store[id + '-other-text'] = otherText.value; changed(id); });
+        }
+        var sync = function () {
+          store[id] = multi ? inputs.filter(function (x) { return x.checked; }).map(function (x) { return x.value; }) : ((inputs.filter(function (x) { return x.checked; })[0] || {}).value || '');
+          if (other) {
+            store[id + '-other'] = other.checked;
+            var was = !otherText.hidden;
+            otherText.hidden = !other.checked;
+            other.setAttribute('aria-expanded', String(other.checked));
+            if (other.checked && !was) otherText.focus();
+          }
+          changed(id);
+        };
+        inputs.concat(other ? [other] : []).forEach(function (x) { x.addEventListener('change', sync); });
+        var hint = hintEl(id, txt.hint);
+        group.setAttribute('aria-describedby', (hint ? id + '-hint ' : '') + id + '-err');
+        f = { id: id, q: q, group: group, input: (inputs[0] || other), err: errorEl(id),
+          validate: function () {
+            var any = inputs.some(function (x) { return x.checked; }) || (other && other.checked);
+            if (q.required && !any) return multi ? MSG.multi : MSG.single;
+            if (other && other.checked && !otherText.value.trim()) return MSG.other;
+            return null;
+          },
+          focusTarget: function () { return (other && other.checked && !otherText.value.trim()) ? otherText : (inputs.filter(function (x) { return x.checked; })[0] || inputs[0] || other); },
+          answer: function () {
+            var vals = inputs.filter(function (x) { return x.checked; }).map(function (x) { return x.value; });
+            if (other && other.checked && otherText.value.trim()) vals.push(otherText.value.trim());
+            return multi ? vals.join('\n') : (vals[vals.length - 1] || '');
+          } };
+        group.append(legend, hint || '', list, f.err);
+        f.el = group;
+      } else {
+        var isPhone = q.type === 'phone_number', isText = q.type === 'text';
+        var input = isText
+          ? h('textarea', { class: 'textarea', id: id, name: id, rows: '3', maxlength: '5000' })
+          : h('input', { class: 'input', id: id, name: id, type: isPhone ? 'tel' : 'text', autocomplete: isPhone ? 'tel' : null, inputmode: isPhone ? 'tel' : null, maxlength: isPhone ? '30' : '500' });
+        if (isPhone && store[id] === undefined) store[id] = '+359 ';
+        keep(input, id);
+        var hintLines = txt.hint.slice();
+        if (isPhone && !hintLines.length) hintLines.push('Ако номерът Ви не е български, сменете +359 с кода на Вашата държава.');
+        var hint2 = hintEl(id, hintLines);
+        describe(input, id, !!hint2);
+        if (q.required) input.setAttribute('aria-required', 'true');
+        var labelLines = isPhone ? ['Телефонен номер'] : txt.label;
+        var emptyPhone = function (v) { return !v || phoneNormal(v) === '+359' || phoneNormal(v) === '+'; };
+        f = { id: id, q: q, input: input, err: errorEl(id),
+          validate: function () {
+            var v = input.value.trim();
+            if (isPhone) { if (emptyPhone(v)) return q.required ? MSG.phoneEmpty : null; return /^\+[1-9]\d{7,14}$/.test(phoneNormal(v)) ? null : MSG.phoneBad; }
+            return q.required && !v ? MSG.text : null;
+          },
+          answer: function () { var v = input.value.trim(); if (isPhone) return emptyPhone(v) ? '' : phoneNormal(v); return isText ? input.value.replace(/\r\n?/g, '\n').trim() : v; } };
+        f.el = h('div', { class: 'field' }, labelEl(id, labelLines, optional), hint2, input, f.err);
+      }
+      f.server = 'q' + q.position;
+      fields.push(f);
+    });
+
+    // the newsletter: optional, never ticked in advance
+    var nl = h('input', { type: 'checkbox', id: 'f-news', name: 'f-news' });
+    nl.checked = !!store['f-news'];
+    nl.addEventListener('change', function () { store['f-news'] = nl.checked; });
+    // the field only robots fill in
+    var hp = h('input', { type: 'text', id: 'f-website', name: 'website', tabindex: '-1', autocomplete: 'off' });
+
+    fields.forEach(function (f) { form.append(f.el); });
+    form.append(h('div', { class: 'field field-news' }, h('label', { class: 'check-row', for: 'f-news' }, nl,
+      h('span', null, 'Искам да получавам новини и предложения от If Sugar Photography. Абонатите имат предимство, когато търсим модели за нови декори, сетове и визии.', h('span', { class: 'opt' }, 'по желание')))));
+    form.append(h('div', { class: 'hp', 'aria-hidden': 'true' }, h('label', { for: 'f-website' }, 'Уебсайт'), hp));
+    var robotEl = h('div', { class: 'robot-check' });
+    form.append(robotEl);
+
+    var summary = h('p', { class: 'form-summary', role: 'alert', hidden: true });
+    var problem = h('div', { class: 'form-problem', 'aria-live': 'assertive' });
+    var btn = h('button', { type: 'submit', class: 'is-button' }, 'Запазете час');
+    var dep = depositInfo(type);
+    var small = 'Часът се запазва веднага.';
+    if (dep) small += ' Капарото' + (dep.amount ? ' (' + dep.amount + ')' : '') + (dep.hours ? ' се превежда до ' + dep.hours + ' часа след запазването.' : ' се превежда след запазването.');
+    form.append(h('div', { class: 'form-end' }, summary, btn, h('p', { class: 'form-small' }, small), problem));
+
+    function revalidate() {
+      if (!tried) return;
+      var bad = 0;
+      fields.forEach(function (f) { var m = f.validate() || f.serverError; setError(f, m); if (m) bad++; });
+      summary.hidden = !bad;
+      summary.textContent = bad === 1 ? 'Остана едно поле — отбелязали сме го по-горе.' : 'Остават ' + bad + ' полета — отбелязали сме ги по-горе.';
+    }
+    function busy(on) { btn.disabled = on; btn.textContent = on ? 'Запазваме…' : 'Запазете час'; form.setAttribute('aria-busy', on ? 'true' : 'false'); }
+    function focusField(f) {
+      var t = f.focusTarget ? f.focusTarget() : f.input;
+      scrollToEl(f.el, 24);
+      if (t) t.focus({ preventScroll: true });
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (btn.disabled) return;
+      tried = true;
+      problem.innerHTML = '';
+      revalidate();
+      var firstBad = fields.filter(function (f) { return f.validate() || f.serverError; })[0];
+      if (firstBad) { focusField(firstBad); return; }
+      busy(true);
+      var answers = fields.filter(function (f) { return f.q; }).map(function (f) { return { question: f.q.name, answer: f.answer() }; }).filter(function (x) { return x.answer; });
+      var depF = fields.filter(function (f) { return f.q && isDeposit(f.q); })[0];
+      opts.submit({
+        name: nameF.input.value.trim().replace(/\s+/g, ' '), email: emailF.input.value.trim(), answers: answers,
+        newsletter: nl.checked, website: hp.value, depositAnswer: depF ? depF.answer() : ''
+      }).then(function (res) {
+        if (res && res.ok) return;
+        busy(false);
+        var code = res && res.code;
+        var f = res && res.field ? fields.filter(function (x) { return x.server === res.field; })[0] : null;
+        if (code === 'invalid' && f) { f.serverError = MSG.server; revalidate(); focusField(f); return; }
+        if (code === 'robot-check') problem.append(h('p', { class: 'form-error', role: 'alert' }, 'Не успяхме да потвърдим, че не сте робот. Моля, опитайте отново — ако се появи проверка, отбележете я.'));
+        else if (code === 'invalid') problem.append(h('p', { class: 'form-error', role: 'alert' }, 'Някой от отговорите не беше приет. Моля, проверете формата и опитайте отново.'));
+        else if (code === 'network') problem.append(downBox({ compact: true, title: 'Не получихме отговор', text: 'Не знаем дали часът е запазен. Моля, проверете имейла си за потвърждение от Calendly, преди да опитате отново, или ни се обадете.' }));
+        else problem.append(downBox({ compact: true, title: 'Часът не беше запазен', text: 'Онлайн записването в момента не работи. Моля, опитайте отново след малко или се свържете с нас — с удоволствие ще Ви запазим час.' }));
+        var first = problem.firstChild;
+        if (first) scrollToEl(first, 120);
+      });
+    });
+    return { el: form, robotEl: robotEl };
+  }
+
+  // ---------- Cloudflare's robot check (Turnstile), rendered when the form shows ----------
+  var robot = (function () {
+    var st = { el: null, id: null, token: '', loading: null };
+    function load() {
+      if (window.turnstile && window.turnstile.render) return Promise.resolve();
+      if (st.loading) return st.loading;
+      st.loading = new Promise(function (resolve, reject) {
+        window.__isTurnstileReady = function () { resolve(); };
+        var s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__isTurnstileReady';
+        s.async = true;
+        s.onerror = function () { st.loading = null; reject(new Error('turnstile')); };
+        document.head.appendChild(s);
+      });
+      return st.loading;
+    }
+    function mount(el) {
+      st.el = el; st.token = ''; st.id = null;
+      load().then(function () {
+        if (st.el !== el || !document.body.contains(el)) return;
+        try {
+          st.id = window.turnstile.render(el, {
+            sitekey: TURNSTILE_KEY, appearance: 'interaction-only', language: 'bg',
+            callback: function (t) { st.token = t; },
+            'expired-callback': function () { st.token = ''; },
+            'error-callback': function () { st.token = ''; }
+          });
+        } catch (e) { /* the gatekeeper will say robot-check */ }
+      }, function () { /* blocked: the gatekeeper will say robot-check */ });
+    }
+    function token(ms) {
+      return new Promise(function (resolve) {
+        var start = Date.now();
+        (function poll() {
+          var t = st.token;
+          if (!t && window.turnstile && st.id !== null) { try { t = window.turnstile.getResponse(st.id) || ''; } catch (e) { t = ''; } }
+          if (t || Date.now() - start > ms) resolve(t || '');
+          else setTimeout(poll, 200);
+        })();
+      });
+    }
+    function reset() {
+      st.token = '';
+      try { if (window.turnstile && st.id !== null) window.turnstile.reset(st.id); } catch (e) { /* ignore */ }
+    }
+    return { mount: mount, token: token, reset: reset };
+  })();
+
+  // ---------- statistics: only for visitors who accepted cookies on ifsugar.studio ----------
+  // The page has no cookie notice of its own. ifsugar.studio (wFolio) asks; after a yes it loads Google Analytics and the
+  // Meta Pixel, whose cookies (_ga, _fbp) sit on .ifsugar.studio and so are readable here. Without them, nothing loads.
+  var stats = (function () {
+    var cookies = '';
+    try { cookies = document.cookie || ''; } catch (e) { cookies = ''; }
+    var consent = /(?:^|;\s*)(?:_ga|_fbp)=/.test(cookies) || /(?:^|;\s*)tracking-consent=accepted/.test(cookies);
+    function loadGa() {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      // Google's default cookies (.ifsugar.studio): the same visitor as on the main site. The page reports itself as
+      // /book (where the Calendly widget was), so it doesn't mix with the home page "/" in the reports.
+      window.gtag('config', GA_ID, { page_location: location.origin + '/book' + location.search });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+    }
+    function loadPixel() {
+      /* Meta's standard snippet; no advanced matching, nothing personal */
+      !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      window.fbq('init', PIXEL_ID);
+      window.fbq('track', 'PageView');
+    }
+    if (consent) { loadGa(); loadPixel(); }
+    // the same events the Calendly widget sent, so the dashboard keeps counting; never anything personal
+    function event(name, params) { if (consent && window.gtag) window.gtag('event', name, params || {}); }
+    function pixel(name, params) { if (consent && window.fbq) window.fbq('track', name, params || {}); }
+    return { event: event, pixel: pixel, consent: function () { return consent; } };
+  })();
+  function typeParams(type, extra) {
+    var p = { event_type_name: type.name, event_type: type.key, duration: type.duration };
+    if (extra) Object.keys(extra).forEach(function (k) { p[k] = extra[k]; });
+    return p;
+  }
+  // utm_* of this page's address, passed on to Calendly's tracking
+  function utm() {
+    var q = new URLSearchParams(location.search), out = null;
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+      var v = q.get(k);
+      if (v) { out = out || {}; out[k] = v.slice(0, 100); }
+    });
+    return out;
+  }
+
+  // ---------- confirmation ----------
+  function plainTitle(type) { return type.title.replace(/\u2060/g, '').replace(/\u00a0/g, ' '); }
+  function stampOf(iso) { return iso.replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+  function icsText(type, startIso, endIso) {
+    function fold(s) { return s.replace(/[\\;,]/g, function (c) { return '\\' + c; }).replace(/\n/g, '\\n'); }
+    return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//If Sugar Photography//Booking//BG', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+      'UID:' + stampOf(startIso) + '-' + type.key + '@book.ifsugar.studio', 'DTSTAMP:' + stampOf(new Date().toISOString()),
+      'DTSTART:' + stampOf(startIso), 'DTEND:' + stampOf(endIso),
+      'SUMMARY:' + fold(plainTitle(type) + ' — If Sugar Photography'),
+      'LOCATION:' + fold('If Sugar Photography, ' + ADDRESS),
+      'DESCRIPTION:' + fold('Телефон: ' + PHONE + '\nhttps://ifsugar.studio'),
+      'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+  }
+  function googleCalUrl(type, startIso, endIso) {
+    var p = new URLSearchParams({ action: 'TEMPLATE', text: plainTitle(type) + ' — If Sugar Photography', dates: stampOf(startIso) + '/' + stampOf(endIso), details: 'Телефон: ' + PHONE + '\nhttps://ifsugar.studio', location: 'If Sugar Photography, ' + ADDRESS, ctz: TZ });
+    return 'https://calendar.google.com/calendar/render?' + p.toString();
+  }
+  function copyButton(text, label) {
+    var b = h('button', { type: 'button', class: 'copy', 'aria-label': label }, 'Копирай');
+    var live = h('span', { class: 'visually-hidden', 'aria-live': 'polite' });
+    b.addEventListener('click', function () {
+      var done = function () { b.textContent = 'Копирано'; live.textContent = 'Копирано'; setTimeout(function () { b.textContent = 'Копирай'; live.textContent = ''; }, 2000); };
+      var fallback = function () {
+        var t = h('textarea', { class: 'visually-hidden', readonly: true });
+        t.value = text; document.body.append(t); t.select();
+        try { document.execCommand('copy'); done(); } catch (e) { /* the text is on screen to copy by hand */ }
+        t.remove();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+    });
+    return [b, live];
+  }
+  // a payment detail: its name above, the value, and a copy button at the right
+  function payLine(k, v, copyText, label, cls) {
+    return h('div', { class: 'pay-line' }, h('p', { class: 'pay-kv' }, h('span', { class: 'pay-k' }, k), h('b', { class: cls || null }, v)), copyButton(copyText, label));
+  }
+  function ibanGroups(iban) { return iban.replace(/(.{4})/g, '$1 ').trim(); }
+  // booking: { type, day, time, startIso, endIso, name, email, depositAnswer, cancelUrl, rescheduleUrl, bookedAt, newsletter }
+  function renderDone(b) {
+    var type = b.type;
+    var dep = depositInfo(type);
+    var first = b.name.split(/\s+/)[0];
+    var end = new Date(b.endIso);
+    var ics = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsText(type, b.startIso, b.endIso));
+
+    var box = h('div', { class: 'done' });
+    box.append(h('div', { class: 'done-mark', html: ICON.check }));
+    box.append(h('h2', { tabindex: '-1', class: 'done-title' }, 'Часът Ви е запазен'));
+    box.append(h('p', { class: 'done-lead' }, 'Благодарим Ви, ' + first + '! Очакваме Ви в студиото.'));
+    var list = h('dl', { class: 'done-list' });
+    function row(k, v) { list.append(h('div', null, h('dt', null, k), h('dd', null, v))); }
+    row('Фотосесия', h('span', { class: 'done-type' }, picture(type, 'pic-sm', 44), h('span', null, h('b', null, type.title), ' · ' + duration(type.duration))));
+    row('Кога', h('span', null, h('b', null, dayLongYear(b.day)), ', ' + b.time + '–' + hhmm(end) + ' ч.'));
+    var place = type.location && !/if\s*sugar/i.test(type.location)
+      ? h('span', null, type.location)
+      : h('span', null, 'If Sugar Photography', h('br'), ADDRESS, h('br'), h('a', { class: 'link', href: MAPS, target: '_blank', rel: 'noopener' }, 'Вижте на картата'));
+    row('Къде', place);
+    box.append(list);
+
+    var steps = h('div', { class: 'done-steps' });
+    if (dep) steps.append(depositStep(b, dep));
+    steps.append(h('div', { class: 'done-step' }, h('h3', null, 'Потвърждение по имейл'),
+      h('p', null, 'Calendly ще Ви изпрати потвърждение на ', h('b', null, b.email), '.')));
+    if (b.cancelUrl || b.rescheduleUrl) {
+      steps.append(h('div', { class: 'done-step' }, h('h3', null, 'Промяна или отказ'),
+        h('p', null, 'Ако плановете Ви се променят, можете да смените часа или да го откажете — връзките са и в имейла от Calendly.'),
+        h('p', { class: 'done-links' },
+          b.rescheduleUrl ? h('a', { class: 'link', href: b.rescheduleUrl, target: '_blank', rel: 'noopener' }, 'Промяна на часа') : null,
+          b.cancelUrl ? h('a', { class: 'link', href: b.cancelUrl, target: '_blank', rel: 'noopener' }, 'Отказ') : null)));
+    }
+    if (b.newsletter === 'confirm') steps.append(h('div', { class: 'done-step' }, h('h3', null, 'Абонамент за новините'), h('p', null, 'Изпратихме Ви имейл — моля, потвърдете абонамента от връзката в него.')));
+    else if (b.newsletter === 'subscribed') steps.append(h('div', { class: 'done-step' }, h('h3', null, 'Абонамент за новините'), h('p', null, 'Записахме Ви — ще получавате новините и предложенията ни по имейл.')));
+    box.append(steps);
+    box.append(h('div', { class: 'done-cal' }, h('h3', null, 'Добавете в календара'),
+      h('div', { class: 'row' },
+        h('a', { class: 'is-button is-outline', href: googleCalUrl(type, b.startIso, b.endIso), target: '_blank', rel: 'noopener' }, 'Google Календар'),
+        h('a', { class: 'is-button is-outline', href: ics, download: 'ifsugar-fotosesia.ics' }, 'Apple / Outlook (.ics)'))));
+    box.append(h('div', { class: 'done-actions' },
+      h('a', { class: 'is-button', href: 'https://ifsugar.studio/' }, 'Към сайта'),
+      h('a', { class: 'text-button', href: '#' }, 'Запазете още един час')));
+    return box;
+  }
+  function depositStep(b, dep) {
+    var how = String(b.depositAnswer || '');
+    var voucher = /ваучер/i.test(how), revolut = /revolut/i.test(how), bank = /банков|превод|iban/i.test(how);
+    var step = h('div', { class: 'done-step is-important' });
+    if (voucher) {
+      step.append(h('h3', null, 'Подаръчен ваучер'), h('p', null, 'Не е нужно да превеждате капаро. Моля, имайте ваучера подръка — ще Ви го поискаме в студиото.'));
+      return step;
+    }
+    step.append(h('h3', null, dep.amount ? 'Капаро ' + dep.amount : 'Капаро'));
+    if (dep.hours) {
+      var deadline = new Date(b.bookedAt.getTime() + dep.hours * 3600000);
+      var start = new Date(b.startIso);
+      if (deadline < start) {
+        step.append(h('p', null, 'Моля, преведете капарото до ', h('b', null, dayLong(dayKeyOfDate(deadline)) + ', ' + hhmm(deadline) + ' ч.'),
+          ' (' + dep.hours + ' часа от запазването). Ако дотогава не го получим, резервацията се отменя автоматично.'));
+      } else step.append(h('p', null, 'Моля, преведете капарото преди фотосесията, за да остане часът Ви запазен.'));
+    } else step.append(h('p', null, 'Моля, преведете капарото възможно най-скоро, за да остане часът Ви запазен.'));
+    var ways = h('div', { class: 'pay' });
+    if (revolut || !bank) {
+      ways.append(h('div', { class: 'pay-way' }, h('p', { class: 'pay-name' }, 'Revolut'),
+        h('p', null, 'Таг: ', h('b', null, PAY.revolutTag), ' · ', h('a', { class: 'link', href: PAY.revolutUrl, target: '_blank', rel: 'noopener' }, 'revolut.me/' + PAY.revolutTag.slice(1)))));
+    }
+    if (bank || !revolut) {
+      var ref = b.name + ', ' + dayNumeric(b.day);
+      ways.append(h('div', { class: 'pay-way' }, h('p', { class: 'pay-name' }, 'Банков превод (' + PAY.bank + ')'),
+        payLine('Получател', PAY.holder, PAY.holder, 'Копирай получателя'),
+        payLine('IBAN', ibanGroups(PAY.iban), PAY.iban, 'Копирай IBAN', 'iban'),
+        payLine('Основание', ref, ref, 'Копирай основанието')));
+    }
+    step.append(ways);
+    return step;
+  }
+
+  // ---------- the choice in the URL hash (#s=bremenna&d=2026-10-15&t=11:00) ----------
+  var listeners = [];
+  function parseState() {
+    var p = new URLSearchParams(location.hash.replace(/^#/, ''));
+    var st = { s: p.get('s'), d: p.get('d'), t: p.get('t'), done: p.has('done') };
+    if (st.s && !byKey[st.s]) st.s = null;
+    if (!st.s) { st.d = st.t = null; st.done = false; }
+    if (st.d && !/^\d{4}-\d{2}-\d{2}$/.test(st.d)) st.d = null;
+    if (!st.d) st.t = null;
+    if (st.t && !/^\d{2}:\d{2}$/.test(st.t)) st.t = null;
+    if (!st.t) st.done = false;
+    return st;
+  }
+  function stateStr(st) {
+    var parts = [];
+    if (st.s) parts.push('s=' + st.s);
+    if (st.s && st.d) parts.push('d=' + st.d);
+    if (st.s && st.d && st.t) parts.push('t=' + st.t);
+    if (st.done) parts.push('done');
+    return parts.join('&');
+  }
+  function go(st, o) {
+    o = o || {};
+    var str = stateStr(st), url = str ? '#' + str : location.pathname + location.search;
+    var cur = location.hash.replace(/^#/, '');
+    if (str === cur) return emit({ initial: false, same: true });
+    var n = depth();
+    if (o.replace) history.replaceState({ bk: 1, prev: (history.state && history.state.prev) || null, n: n }, '', url);
+    else history.pushState({ bk: 1, prev: cur, n: n + 1 }, '', url);
+    emit({ initial: false });
+  }
+  function parentOf(st) {
+    if (st.done) return {};
+    if (st.t) return { s: st.s, d: st.d };
+    return {};
+  }
+  // how many steps this page has added to the browser's history before the current one
+  function depth() { return (history.state && typeof history.state.n === 'number') ? history.state.n : 0; }
+  // „← Обратно“: a visitor who came from a page of ifsugar.studio goes back to exactly that page (the browser's own
+  // Back, past the steps taken here); anyone else — or if that doesn't work — goes to ifsugar.studio
+  var SITE = 'https://ifsugar.studio/';
+  function leave(e) {
+    var n = depth();
+    var fromSite = /^https:\/\/(www\.)?ifsugar\.studio(\/|$)/.test(document.referrer || '');
+    if (!fromSite || history.length <= n + 1) return; // the link itself goes to ifsugar.studio
+    if (e) e.preventDefault();
+    var gone = false;
+    window.addEventListener('pagehide', function () { gone = true; }, { once: true });
+    history.go(-(n + 1));
+    setTimeout(function () { if (!gone) location.href = SITE; }, 700);
+  }
+  function back() {
+    var st = parseState(), parent = parentOf(st), ps = stateStr(parent);
+    if (history.state && history.state.bk && history.state.prev === ps) history.back();
+    else go(parent, { replace: true });
+  }
+  function emit(info) { var st = parseState(); listeners.forEach(function (fn) { fn(st, info || {}); }); }
+  function onState(fn) { listeners.push(fn); }
+  // the session asked for by a direct link (?s=mini opens the secret Christmas mini session) or by the hash
+  function wanted() {
+    var q = new URLSearchParams(location.search).get('s');
+    var hs = new URLSearchParams(location.hash.replace(/^#/, '')).get('s');
+    var s = q || hs || '';
+    return /^[a-z0-9-]{1,48}$/.test(s) ? s : '';
+  }
+  var started = false;
+  function start() {
+    var q = new URLSearchParams(location.search).get('s');
+    if (!location.hash && q && byKey[q]) history.replaceState({ bk: 1, prev: null, n: depth() }, '', '#s=' + q);
+    var st = parseState();
+    if (st.done) history.replaceState({ bk: 1, prev: null, n: depth() }, '', '#' + stateStr({ s: st.s, d: st.d, t: st.t }));
+    if (!history.state || typeof history.state.n !== 'number') history.replaceState({ bk: 1, prev: (history.state && history.state.prev) || null, n: 0 }, '', location.href);
+    if (!started) {
+      started = true;
+      window.addEventListener('popstate', function () { emit({ pop: true }); });
+      window.addEventListener('hashchange', function () { emit({ pop: true }); });
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href="#"]');
+        if (a) { e.preventDefault(); go({}); }
+      });
+    }
+    emit({ initial: true });
+  }
+
+  // ---------- the announcement bar: when its text doesn't fit, it scrolls left (~30px a second), as on ifsugar.studio ----------
+  (function () {
+    var bar = document.getElementById('informer'), link = bar && bar.querySelector('.topband-link');
+    if (!link) return;
+    var item = link.querySelector('.topband-item');
+    function fit() {
+      Array.prototype.slice.call(link.querySelectorAll('.topband-copy')).forEach(function (c) { c.parentNode.removeChild(c); });
+      bar.classList.remove('is-animated');
+      var w = item.offsetWidth, room = bar.offsetWidth;
+      if (!w || !room || w <= room) return;
+      bar.classList.add('is-animated');
+      bar.style.setProperty('--topband-dur', (w / 30).toFixed(1) + 's');
+      for (var i = 0; i < Math.ceil(room / w); i++) {
+        var copy = item.cloneNode(true);
+        copy.className = 'topband-item topband-copy';
+        copy.setAttribute('aria-hidden', 'true');
+        link.appendChild(copy);
+      }
+    }
+    var t;
+    window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(fit, 150); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    fit();
+  })();
+
+  // ---------- the announcement bar's close button: hidden for the rest of this visit (this tab) ----------
+  (function () {
+    var btn = document.querySelector('.topband-close');
+    if (!btn) return;
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var hadFocus = document.activeElement === btn;
+      document.documentElement.classList.add('informer-closed');
+      try { window.sessionStorage.setItem('ifsugar-informer', 'closed'); } catch (err) { /* no storage: closed until the page is opened again */ }
+      var logo = document.querySelector('.site-header .logo');
+      if (hadFocus && logo) logo.focus({ preventScroll: true });
+    });
+  })();
+
+  // ---------- the phone menu (as on ifsugar.studio's phone theme) ----------
+  var menu = (function () {
+    var btn = document.getElementById('menu-button'), nav = document.getElementById('menu');
+    if (!btn || !nav) return { close: function () {} };
+    var phone = window.matchMedia ? window.matchMedia('(max-width: 860px)') : null;
+    function rest() { return Array.prototype.slice.call(document.querySelectorAll('body > main, body > .contacts, body > footer, body > .skip')); }
+    function isOpen() { return btn.getAttribute('aria-expanded') === 'true'; }
+    function open() {
+      btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('aria-label', 'Затвори менюто');
+      nav.classList.add('is-open');
+      document.documentElement.classList.add('menu-open');
+      rest().forEach(function (el) { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true'); });
+      var first = nav.querySelector('a');
+      if (first) first.focus({ preventScroll: true });
+    }
+    function close(backToButton) {
+      if (!isOpen()) return;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Меню');
+      nav.classList.remove('is-open');
+      document.documentElement.classList.remove('menu-open');
+      rest().forEach(function (el) { el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); });
+      if (backToButton) btn.focus({ preventScroll: true });
+    }
+    btn.addEventListener('click', function () { if (isOpen()) close(true); else open(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) { e.preventDefault(); close(true); } });
+    nav.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a')) close(false); });
+    if (phone) {
+      var wide = function () { if (!phone.matches) close(false); };
+      if (phone.addEventListener) phone.addEventListener('change', wide); else if (phone.addListener) phone.addListener(wide);
+    }
+    return { close: close };
+  })();
+
+  return {
+    GATE: GATE, ADDRESS: ADDRESS, ICON: ICON, TODAY: TODAY,
+    h: h, esc: esc, scrollToEl: scrollToEl, headerOffset: headerOffset, reduceMotion: reduceMotion, menu: menu, paragraphs: paragraphs, api: api,
+    loadTypes: loadTypes, types: function () { return TYPES; }, typeByKey: typeByKey, duration: duration, typeMeta: typeMeta, picture: picture,
+    dayLong: dayLong, endTime: endTime, ymOf: ymOf,
+    fetchTimes: fetchTimes, forgetTimes: forgetTimes, slotIso: slotIso, mountDayTime: mountDayTime, downBox: downBox,
+    renderForm: renderForm, renderDone: renderDone, questionText: questionText, depositInfo: depositInfo,
+    robot: robot, stats: stats, typeParams: typeParams, utm: utm,
+    state: { get: parseState, go: go, back: back, leave: leave, on: onState, start: start, wanted: wanted }
+  };
+})();
+
+</script>
+<script>
+/* The booking page's steps (the approved design, variant A — „Стъпка по стъпка“): one centred card with a progress line.
+   1 session → 2 day and time → 3 your details → confirmation. Every step comes from the gatekeeper, live. */
+(function () {
+  'use strict';
+  var h = IS.h, S = IS.state;
+  var card = document.getElementById('a-card');
+  var body = document.getElementById('a-body');
+  var progress = document.getElementById('a-progress');
+  var backSlot = document.getElementById('a-back-slot');
+  var stores = {};          // form answers per session type, kept while the page is open
+  var booking = null;       // the last booking made on this page
+  var mounted = null;       // what the card shows now, e.g. "2|bremenna"
+  var flash = '';
+  var seen = {};            // analytics: the session pages already counted on this visit
+
+  var STEPS = ['Фотосесия', 'Ден и час', 'Вашите данни'];
+  function renderProgress(step, st) {
+    progress.innerHTML = '';
+    progress.hidden = step === 4;
+    STEPS.forEach(function (name, i) {
+      var n = i + 1, li = h('li', { class: n === step ? 'is-current' : (n < step ? 'is-done' : '') });
+      var inner = [h('span', { class: 'n', 'aria-hidden': 'true' }, String(n)), name];
+      if (n < step && st) {
+        li.append(h('button', { type: 'button', 'aria-label': 'Стъпка ' + n + ': ' + name + ' — промени', onclick: function () { S.go(n === 1 ? {} : { s: st.s, d: st.d }); } }, inner));
+      } else {
+        if (n === step) li.setAttribute('aria-current', 'step');
+        li.append.apply(li, inner);
+      }
+      progress.append(li);
+    });
+  }
+  function renderBack(step) {
+    backSlot.innerHTML = '';
+    if (step === 1) backSlot.append(h('a', { class: 'text-button', href: 'https://ifsugar.studio/', onclick: S.leave }, '← Обратно'));
+    else if (step < 4) backSlot.append(h('button', { type: 'button', class: 'text-button', onclick: S.back }, '← Назад'));
+  }
+
+  // ---- while the sessions load, and when they can't
+  function skeleton() {
+    renderProgress(1, null);
+    renderBack(1);
+    body.innerHTML = '';
+    var list = h('ul', { class: 'a-types is-loading', 'aria-hidden': 'true' });
+    for (var i = 0; i < 5; i++) {
+      list.append(h('li', null, h('div', { class: 'a-type' }, h('span', { class: 'sk sk-pic' }), h('span', { class: 'a-type-text' }, h('span', { class: 'sk sk-line' }), h('span', { class: 'sk sk-line is-short' })))));
+    }
+    body.append(h('h2', { class: 'a-step-title' }, 'Изберете фотосесия'), h('p', { class: 'visually-hidden', role: 'status' }, 'Зареждаме фотосесиите…'), list);
+  }
+  function down(retry) {
+    renderProgress(1, null);
+    progress.hidden = true;
+    renderBack(1);
+    mounted = null;
+    body.innerHTML = '';
+    body.append(IS.downBox({ retry: retry }));
+  }
+
+  // ---- step 1: the sessions
+  function step1() {
+    body.innerHTML = '';
+    var list = h('ul', { class: 'a-types' });
+    var wanted = S.wanted();
+    IS.types().filter(function (t) { return !t.secret || t.key === wanted; }).forEach(function (t) {
+      list.append(h('li', null, h('button', { type: 'button', class: 'a-type', style: '--accent:' + t.color, 'aria-label': t.title + ', ' + IS.duration(t.duration), onclick: function () { S.go({ s: t.key }); } },
+        h('span', { class: 'bar', 'aria-hidden': 'true' }),
+        IS.picture(t, 'a-pic', 64),
+        h('span', { class: 'a-type-text' }, h('span', { class: 'a-type-name' }, t.title), h('span', { class: 'meta' }, IS.duration(t.duration))),
+        h('span', { class: 'go', 'aria-hidden': 'true' }, 'Изберете →'))));
+    });
+    if (!list.children.length) {
+      body.append(IS.downBox({ title: 'В момента няма фотосесии за онлайн записване', text: 'Моля, свържете се с нас — с удоволствие ще Ви запазим час.' }));
+      return;
+    }
+    body.append(h('h2', { class: 'a-step-title', tabindex: '-1' }, 'Изберете фотосесия'), list);
+  }
+
+  // ---- step 2: day and time
+  function step2(type, st) {
+    body.innerHTML = '';
+    var desc = type.description ? h('div', { class: 'type-desc' }, IS.paragraphs(type.description)) : null;
+    var info = h('div', { class: 'a-info' },
+      h('div', { class: 'a-info-head' }, IS.picture(type, 'a-info-pic', 72), h('h2', { tabindex: '-1' }, type.title)),
+      IS.typeMeta(type), desc);
+    var dt = h('div', { class: 'a-dt' });
+    if (flash) { dt.append(h('p', { class: 'notice a-flash', role: 'status' }, flash)); flash = ''; }
+    var holder = h('div');
+    dt.append(holder);
+    body.append(h('div', { class: 'a-step2' }, info, dt));
+    if (!seen[type.key]) { seen[type.key] = true; IS.stats.event('invitee_event_type_page', IS.typeParams(type)); }
+    IS.mountDayTime(holder, type, {
+      day: st.d,
+      onDay: function (k) { IS.stats.event('invitee_select_day', IS.typeParams(type)); S.go({ s: type.key, d: k }, { replace: true }); },
+      onTime: function (k, t) { IS.stats.event('invitee_select_time', IS.typeParams(type)); S.go({ s: type.key, d: k, t: t }); }
+    });
+  }
+
+  // ---- step 3: your details
+  function step3(type, st, iso) {
+    body.innerHTML = '';
+    var sum = h('div', { class: 'a-summary' },
+      IS.picture(type, 'a-sum-pic', 56),
+      h('div', { class: 'a-sum-text' },
+        h('div', { class: 'a-sum-name' }, type.title),
+        h('div', { class: 'a-sum-when' }, IS.dayLong(st.d) + ', ' + st.t + '–' + IS.endTime(st.t, type.duration) + ' ч.'),
+        h('div', { class: 'a-sum-where' }, (type.location && !/if\s*sugar/i.test(type.location)) ? type.location : 'If Sugar Photography, ' + IS.ADDRESS)),
+      h('button', { type: 'button', class: 'text-button', onclick: function () { S.go({ s: st.s, d: st.d }); } }, 'Промени'));
+    var store = stores[type.key] = stores[type.key] || {};
+    var form = IS.renderForm(type, store, { submit: submitter(type, st, iso) });
+    body.append(sum, h('h2', { class: 'a-form-title', tabindex: '-1' }, 'Вашите данни'), form.el);
+    IS.robot.mount(form.robotEl);
+  }
+  function submitter(type, st, iso) {
+    return function (data) {
+      return IS.robot.token(8000).then(function (token) {
+        var payload = { type: type.key, start: iso, name: data.name, email: data.email, answers: data.answers, newsletter: data.newsletter, token: token, website: data.website };
+        var utm = IS.utm();
+        if (utm) payload.utm = utm;
+        return IS.api('/book', { method: 'POST', body: JSON.stringify(payload), timeout: 45000 });
+      }).then(function (r) {
+        var b = r.body || {};
+        if (r.status === 200 && b.result === 'booked') {
+          IS.forgetTimes(type.key);
+          booking = {
+            type: type, day: st.d, time: st.t, name: data.name, email: data.email, depositAnswer: data.depositAnswer,
+            startIso: b.start || iso, endIso: b.end || new Date(Date.parse(iso) + type.duration * 60000).toISOString(),
+            cancelUrl: /^https:\/\/calendly\.com\//.test(b.cancelUrl || '') ? b.cancelUrl : '',
+            rescheduleUrl: /^https:\/\/calendly\.com\//.test(b.rescheduleUrl || '') ? b.rescheduleUrl : '',
+            newsletter: b.newsletter || '', bookedAt: new Date()
+          };
+          stores[type.key] = {};
+          IS.stats.event('invitee_meeting_scheduled', IS.typeParams(type));
+          IS.stats.pixel('Schedule', { content_name: type.name });
+          S.go({ s: st.s, d: st.d, t: st.t, done: true }, { replace: true });
+          return { ok: true };
+        }
+        IS.robot.reset();
+        if (r.status === 409 || b.message === 'slot-taken') {
+          IS.forgetTimes(type.key);
+          flash = 'Часът ' + st.t + ' на ' + IS.dayLong(st.d) + ' току-що беше зает. Моля, изберете друг — ето свободните часове в момента. Отговорите Ви са запазени.';
+          S.go({ s: st.s, d: st.d }, { replace: true });
+          return { ok: true };
+        }
+        return { code: b.message || 'error', field: b.field, status: r.status };
+      }, function () {
+        IS.robot.reset();
+        return { code: 'network' };
+      });
+    };
+  }
+
+  function step4() {
+    body.innerHTML = '';
+    body.append(IS.renderDone(booking));
+  }
+
+  function focusHead(info) {
+    if (info.initial) return;
+    var head = body.querySelector('[tabindex="-1"]');
+    if (card.getBoundingClientRect().top < IS.headerOffset()) IS.scrollToEl(card, 12);
+    if (head) head.focus({ preventScroll: true });
+  }
+  var seq = 0;
+  function render(st, info) {
+    var type = st.s ? IS.typeByKey(st.s) : null;
+    var step = !type ? 1 : !st.t ? 2 : (st.done && booking ? 4 : 3);
+    var key = step + '|' + (st.s || '') + (step === 3 ? '|' + st.d + '|' + st.t : '');
+    renderProgress(step, st);
+    renderBack(step);
+    card.setAttribute('data-step', String(step));
+    if (mounted === key && (step === 2 || info.same || info.pop)) return;   // e.g. a day was picked: the calendar updates itself
+    var my = ++seq;
+    if (step === 3) {
+      // the time may have gone since it was picked (or since the link was made): check it live
+      if (mounted !== key) { body.innerHTML = ''; body.append(h('p', { class: 'loading-line', role: 'status' }, 'Проверяваме дали часът е още свободен…')); }
+      mounted = null;
+      IS.slotIso(type, st.d, st.t).then(function (iso) {
+        if (my !== seq) return;
+        if (!iso) {
+          flash = 'Часът ' + st.t + ' на ' + IS.dayLong(st.d) + ' вече не е свободен. Моля, изберете друг.';
+          S.go({ s: st.s, d: st.d }, { replace: true });
+          return;
+        }
+        mounted = key;
+        step3(type, st, iso);
+        focusHead(info);
+      }, function () {
+        if (my !== seq) return;
+        down(function () { render(S.get(), {}); });
+      });
+      return;
+    }
+    mounted = key;
+    if (step === 1) step1();
+    else if (step === 2) step2(type, st);
+    else step4();
+    focusHead(info);
+  }
+
+  function boot() {
+    skeleton();
+    IS.loadTypes(S.wanted()).then(function () {
+      if (!started) { started = true; S.on(render); }
+      S.start();
+    }, function () {
+      down(boot);
+    });
+  }
+  var started = false;
+  boot();
+})();
+
+</script>
+</body>
+</html>
